@@ -26,13 +26,28 @@ class PostView(APIView):
 		serializer = ApiSerializers.PostSerializer(posts, many=True)
 		return Response(serializer.data, status=200)
 
-	def put(self, request):
+class PostDetailView(APIView):
+	""" CRUD for specific post """
+
+	def get(self, request, **kwargs):
+		""" Get specific post """
+
+		postID = kwargs['id']
+		try:
+			post = ApiModels.Post.objects.get(id=postID)
+		except Exception as e:
+			raise ValidationError(e)
+
+		serializer = ApiSerializers.PostSerializer(post)
+		return Response(serializer.data, status=200)
+
+	def put(self, request, **kwargs):
 		""" Change existing post
 
 			Required params:
 			@param1 - postID """
 
-		postID = request.data.get('postID')
+		postID = kwargs['id']
 		try:
 			post = ApiModels.Post.objects.get(id=postID)
 		except Exception as e:
@@ -45,13 +60,13 @@ class PostView(APIView):
 		else:
 			return Response(serializer.errors, status=422)
 
-	def delete(self, request):
+	def delete(self, request, **kwargs):
 		""" Delete post
 
 			Required params:
 			@param1 - postID"""
 
-		postID = request.data.get('postID')
+		postID = kwargs['id']
 		try:
 			post = ApiModels.Post.objects.get(id=postID)
 		except Exception as e:

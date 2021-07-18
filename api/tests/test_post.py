@@ -66,9 +66,8 @@ class TestPostEndpoints(APITestCase):
 		""" Test PUT method """
 
 		response = self.client.put(
-			'/post/',
+			f'/post/{self.post1.id}/',
 			{
-				'postID': self.post1.id,
 				'author': self.user1.id,
 				'title': 'New technology',
 				'content': 'Hello there'
@@ -85,13 +84,7 @@ class TestPostEndpoints(APITestCase):
 		""" Test DELETE method """
 
 		response = self.client.delete(
-			'/post/',
-			{
-				'postID': self.post1.id
-			},
-			headers={
-				'Content-Type':'application/x-www-form-urlencoded'
-			}
+			f'/post/{self.post1.id}/',
 		)
 
 		self.assertEquals(response.status_code, 200)

@@ -27,4 +27,4 @@ class Comment(models.Model):
 	content = models.CharField(max_length=2000, null=False, blank=False)
 
 	def __str__(self):
-		return self.username + ' on ' + self.post
+		return f'{self.username} on  {self.post}'
