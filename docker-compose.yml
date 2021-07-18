@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+    blogserver:
+        build: .
+        container_name: blogserver
+        command: python manage.py runserver 0.0.0.0:7000
+        volumes:
+            - .:/usr/src/app
+        environment:
+            - DEBUG=1
+            - ALLOWED_HOSTS=127.0.0.1
+        ports:
+            - "7000:7000"
+        depends_on:
+            - blogdb
+    blogdb:
+        image: postgres
+        container_name: blogdb
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        volumes:
+            - pgdata:/var/lib/postgresql/data/
+volumes:
+    pgdata:
