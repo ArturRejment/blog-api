@@ -19,6 +19,19 @@ def viewLikesForPost(request, **kwargs):
 	serializer = ApiSerializers.PostLikeSerializer(likes, many=True)
 	return Response(serializer.data)
 
+@api_view(['GET'])
+def viewLikesForComment(request, **kwargs):
+	""" View all people who liked this comment """
+	commentID = kwargs['id']
+	try:
+		comment = ApiModels.Comment.objects.get(id=commentID)
+	except Exception as e:
+		raise ValidationError(e)
+
+	likes = comment.commentlike_set.all()
+	serializer = ApiSerializers.CommentLikeSerializer(likes, many=True)
+	return Response(serializer.data)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def likePost(request, **kwargs):
@@ -39,3 +52,25 @@ def likePost(request, **kwargs):
 	)
 
 	return Response("Post liked", status=200)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def likeComment(request, **kwargs):
+	""" Allows to like specific comment by currently logged user """
+	user = request.user
+	commentID = kwargs['id']
+	try:
+		comment = ApiModels.Comment.objects.get(id=commentID)
+	except Exception as e:
+		raise ValidationError(e)
+
+	for i, element in enumerate(user.commentlike_set.all()):
+		if comment == element.comment:
+			raise ValidationError({'User': 'User already likes this comment'}, code=422)
+
+	ApiModels.CommentLike.objects.create(
+		user=user,
+		comment=comment
+	)
+
+	return Response("Comment liked", status=200)

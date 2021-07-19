@@ -15,3 +15,8 @@ class PostLikeSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ApiModels.PostLike
 		fields = ['user']
+
+class CommentLikeSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = ApiModels.CommentLike
+		fields = ['user']
