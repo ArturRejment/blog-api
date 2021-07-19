@@ -18,6 +18,11 @@ class Post(models.Model):
 	title = models.CharField(max_length=100, null=False, blank=False, unique=True)
 	content = models.CharField(max_length=2000, null=False, blank=False)
 
+	@property
+	def numberOfLikes(self):
+		likes = self.postlike_set.all()
+		return likes.count()
+
 	def __str__(self):
 		return self.title
 
@@ -26,5 +31,24 @@ class Comment(models.Model):
 	username = models.CharField(max_length=50, null=False, blank=False)
 	content = models.CharField(max_length=2000, null=False, blank=False)
 
+	@property
+	def numberOfLikes(self):
+		likes = self.commentlike_set.all()
+		return likes.count()
+
 	def __str__(self):
 		return f'{self.username} on  {self.post}'
+
+class PostLike(models.Model):
+	user = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
+	post = models.ForeignKey(Post, null=False, blank=False, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return f'{self.user} likes {self.post}'
+
+class CommentLike(models.Model):
+	user = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
+	comment = models.ForeignKey(Comment, null=False, blank=False, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return f'{self.user} likes {self.comment}'
