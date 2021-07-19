@@ -4,7 +4,7 @@ import api.models as ApiModels
 class PostSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ApiModels.Post
-		fields = ['id', 'author', 'title', 'content']
+		fields = ['id', 'author', 'title', 'content', 'numberOfLikes']
 
 class CommentSerializer(serializers.ModelSerializer):
 	class Meta:
