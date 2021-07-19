@@ -19,7 +19,7 @@ class Post(models.Model):
 	content = models.CharField(max_length=2000, null=False, blank=False)
 
 	@property
-	def numberOfLikes(self):
+	def number_of_likes(self):
 		likes = self.postlike_set.all()
 		return likes.count()
 
@@ -32,7 +32,7 @@ class Comment(models.Model):
 	content = models.CharField(max_length=2000, null=False, blank=False)
 
 	@property
-	def numberOfLikes(self):
+	def number_of_likes(self):
 		likes = self.commentlike_set.all()
 		return likes.count()
 

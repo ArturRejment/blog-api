@@ -29,10 +29,13 @@ def likePost(request, **kwargs):
 	except Exception as e:
 		raise ValidationError(e)
 
-	if post in user.post_set.all():
-		raise ValidationError('User already likes this post', status=422)
+	for i, element in enumerate(user.postlike_set.all()):
+		if post == element.post:
+			raise ValidationError({'User': 'User already likes this post'}, code=422)
 
 	ApiModels.PostLike.objects.create(
 		user=user,
 		post=post
 	)
+
+	return Response("Post liked", status=200)
