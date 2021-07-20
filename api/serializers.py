@@ -13,6 +13,11 @@ class PostSerializer(serializers.ModelSerializer):
 		model = ApiModels.Post
 		fields = ['id', 'author', 'title', 'content', 'number_of_likes', 'imageURL']
 
+class PostCreateSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = ApiModels.Post
+		fields = ['author', 'title', 'content', 'image']
+
 class CommentSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ApiModels.Comment

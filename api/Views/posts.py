@@ -1,6 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
 
 import api.models as ApiModels
 import api.serializers as ApiSerializers
@@ -8,11 +11,15 @@ import api.serializers as ApiSerializers
 
 class PostView(APIView):
 	""" Basic POST, GET, PUT and DELETE methods for Post model """
+	parser_classes = [MultiPartParser, FormParser]
 
+	@permission_classes([IsAuthenticated])
 	def post(self, request):
 		""" Create new Post """
 
-		serializer = ApiSerializers.PostSerializer(data=request.data)
+		serializer = ApiSerializers.PostCreateSerializer(
+			data=request.data
+		)
 		if serializer.is_valid():
 			serializer.save()
 			return Response("Post created successfully", status=201)
