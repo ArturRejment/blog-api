@@ -12,8 +12,8 @@ def index(request):
 	comments = ApiModels.Comment.objects.all()
 	json = {}
 	for post in posts:
-		json[post.__str__()] = post.numberOfLikes
+		json[post.__str__()] = post.number_of_likes
 
 	for comment in comments:
-		json[comment.__str__()] = comment.numberOfLikes
+		json[comment.__str__()] = comment.number_of_likes
 	return Response(json)

@@ -7,6 +7,7 @@ class User(AbstractUser):
 	email = models.EmailField(verbose_name='email', max_length=254, unique=True)
 	phone = models.CharField(null=True, max_length=250)
 	self_description = models.CharField(null=True, blank=True, max_length=500)
+	user_pic = models.ImageField(upload_to="user_pics", default="default.png", height_field=None, width_field=None, max_length=None)
 
 	REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
 
@@ -17,6 +18,7 @@ class Post(models.Model):
 	author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
 	title = models.CharField(max_length=100, null=False, blank=False, unique=True)
 	content = models.CharField(max_length=2000, null=False, blank=False)
+	image = models.ImageField(upload_to="post_pics", default="default.png", height_field=None, width_field=None, max_length=None)
 
 	@property
 	def number_of_likes(self):
