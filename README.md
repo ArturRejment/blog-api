@@ -38,3 +38,22 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 - `comment/<id>/like/` (Authentication required)
   - `POST` Likes comment specified by id by currently logged user
+
+## Examplary responses
+
+### /post/8/
+```json
+{
+    "id": 8,
+    "author": {
+        "username": "marco123",
+        "first_name": "Marco",
+        "last_name": "Polo",
+        "imageURL": "http://127.0.0.1:7000/static/images/default.png"
+    },
+    "title": "Spaghetti Bolognese",
+    "content": "Cook the ground beef in a large pot over high heat, stirring quickly and constantly until completely browned 7 to 10 minutes. Stir the onion into the beef; cook and stir until the onion begins to turn translucent, about 5 minutes more. Drain excess grease from meat mixture. Add the mushroom to the mixture; allow to cook until it begins to soften, 1 to 2 minutes. Pour the diced tomatoes and tomato soup into the pot, stir, reduce heat to medium, and bring the mixture to a simmer.",
+    "number_of_likes": 1,
+    "imageURL": "http://127.0.0.1:7000/static/images/post_pics/spaghetti_qKbK0jq.png"
+}
+```
