@@ -11,6 +11,14 @@ class User(AbstractUser):
 
 	REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
 
+	@property
+	def imageURL(self):
+		try:
+			url = 'http://127.0.0.1:7000/static' + self.user_pic.url
+		except Exception:
+			url = ''
+		return url
+
 	def __str__(self):
 		return f'{self.id} {self.first_name} {self.last_name}'
 
@@ -19,6 +27,14 @@ class Post(models.Model):
 	title = models.CharField(max_length=100, null=False, blank=False, unique=True)
 	content = models.CharField(max_length=2000, null=False, blank=False)
 	image = models.ImageField(upload_to="post_pics", default="default.png", height_field=None, width_field=None, max_length=None)
+
+	@property
+	def imageURL(self):
+		try:
+			url = 'http://127.0.0.1:7000/static' + self.image.url
+		except Exception:
+			url = ''
+		return url
 
 	@property
 	def number_of_likes(self):
