@@ -6,7 +6,7 @@ import api.Views.likes as LikesView
 
 urlpatterns = [
 	path('', views.index, name='index'),
-	path('post/', PostView.PostView.as_view(), name='all_posts'),
+	path('post/', PostView.PostView.as_view({'get': 'list'}), name='all_posts'),
 	path('post/<int:id>/', PostView.PostDetailView.as_view(), name='post'),
 	path('post/<int:id>/comments/', CommentsView.CommentDetailView.as_view(), name='post_comment'),
 	path('post/<int:id>/likes/', LikesView.viewLikesForPost, name='likes_for_post'),

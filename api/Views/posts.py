@@ -4,14 +4,23 @@ from rest_framework.serializers import ValidationError
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import generics, mixins, viewsets
 
 import api.models as ApiModels
 import api.serializers as ApiSerializers
+import api.renderers as ApiRenderers
 
 
-class PostView(APIView):
+class PostView(
+				mixins.CreateModelMixin,
+                mixins.ListModelMixin,
+                mixins.RetrieveModelMixin,
+                viewsets.GenericViewSet):
+
 	""" Basic POST, GET, PUT and DELETE methods for Post model """
 	parser_classes = [MultiPartParser, FormParser]
+	renderer_classes = (ApiRenderers.PostJSONRenderer,)
+	serializer_classes = ApiSerializers.PostSerializer
 
 	@permission_classes([IsAuthenticated])
 	def post(self, request):
@@ -26,15 +35,18 @@ class PostView(APIView):
 		else:
 			return Response(serializer.errors, status=422)
 
-	def get(self, request):
+	def list(self, request):
 		""" Return set of all posts """
+		serializer_context = {'request', request}
 
-		posts = ApiModels.Post.objects.all()
-		serializer = ApiSerializers.PostSerializer(posts, many=True)
-		return Response(serializer.data, status=200)
+		posts = self.paginate_queryset(ApiModels.Post.objects.all())
+		serializer = ApiSerializers.PostSerializer(posts, context=serializer_context, many=True)
+		return self.get_paginated_response(serializer.data)
 
 class PostDetailView(APIView):
 	""" CRUD for specific post """
+	renderer_classes = (ApiRenderers.PostJSONRenderer,)
+	serializer_classes = ApiSerializers.PostSerializer
 
 	def get(self, request, **kwargs):
 		""" Get specific post """
