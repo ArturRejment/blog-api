@@ -8,20 +8,21 @@ class UserSerializer(UserSerializer):
 		fields = ['username', 'first_name', 'last_name', 'imageURL']
 
 class PostSerializer(serializers.ModelSerializer):
-	author = UserSerializer()
+	author = UserSerializer(read_only=True)
 	class Meta:
 		model = ApiModels.Post
-		fields = ['id', 'author', 'title', 'content', 'number_of_likes', 'imageURL']
-
-class PostCreateSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = ApiModels.Post
-		fields = ['title', 'content', 'image']
+		fields = ['id', 'author', 'image', 'title', 'content', 'number_of_likes', 'imageURL']
+		read_only_fields = ('author', 'number_of_likes')
+		extra_kwargs = {
+			'image': {'write_only': True}
+		}
 
 	def create(self, validated_data):
 		author = self.context.get('author', None)
 		post = ApiModels.Post.objects.create(author=author, **validated_data)
 		return post
+
+
 
 class CommentSerializer(serializers.ModelSerializer):
 	class Meta:

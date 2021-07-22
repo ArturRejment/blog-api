@@ -30,16 +30,18 @@ class PostView(
 			'request': request
 		}
 
-		serializer = ApiSerializers.PostCreateSerializer(
-			data={
-				'title': request.data.get('title', None),
+		serializer_data = {
+			'title': request.data.get('title'),
 				'content': request.data.get('content', None),
 				'image': request.data.get('image', None)
-			}, context=serializer_context
+		}
+
+		serializer = self.serializer_classes(
+			data=serializer_data, context=serializer_context
 		)
 		serializer.is_valid(raise_exception=True)
 		serializer.save()
-		return Response("Post created successfully", status=201)
+		return Response(serializer.data, status=201)
 
 
 	def list(self, request):
@@ -47,7 +49,7 @@ class PostView(
 		serializer_context = {'request', request}
 
 		posts = self.paginate_queryset(ApiModels.Post.objects.all())
-		serializer = ApiSerializers.PostSerializer(posts, context=serializer_context, many=True)
+		serializer = self.serializer_classes(posts, context=serializer_context, many=True)
 		return self.get_paginated_response(serializer.data)
 
 class PostDetailView(APIView):
