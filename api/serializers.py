@@ -16,7 +16,12 @@ class PostSerializer(serializers.ModelSerializer):
 class PostCreateSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ApiModels.Post
-		fields = ['author', 'title', 'content', 'image']
+		fields = ['title', 'content', 'image']
+
+	def create(self, validated_data):
+		author = self.context.get('author', None)
+		post = ApiModels.Post.objects.create(author=author, **validated_data)
+		return post
 
 class CommentSerializer(serializers.ModelSerializer):
 	class Meta:

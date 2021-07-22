@@ -23,17 +23,24 @@ class PostView(
 	serializer_classes = ApiSerializers.PostSerializer
 
 	@permission_classes([IsAuthenticated])
-	def post(self, request):
+	def create(self, request):
 		""" Create new Post """
+		serializer_context = {
+			'author': request.user,
+			'request': request
+		}
 
 		serializer = ApiSerializers.PostCreateSerializer(
-			data=request.data
+			data={
+				'title': request.data.get('title', None),
+				'content': request.data.get('content', None),
+				'image': request.data.get('image', None)
+			}, context=serializer_context
 		)
-		if serializer.is_valid():
-			serializer.save()
-			return Response("Post created successfully", status=201)
-		else:
-			return Response(serializer.errors, status=422)
+		serializer.is_valid(raise_exception=True)
+		serializer.save()
+		return Response("Post created successfully", status=201)
+
 
 	def list(self, request):
 		""" Return set of all posts """
