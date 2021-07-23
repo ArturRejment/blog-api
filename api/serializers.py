@@ -69,9 +69,36 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+	author = UserSerializer(read_only=True)
+	favorited = serializers.SerializerMethodField()
+	favorites_count = serializers.SerializerMethodField(method_name='get_favorites_comment_count')
 	class Meta:
 		model = ApiModels.Comment
-		fields = ['id', 'post', 'username', 'content']
+		fields = ['id', 'post', 'author', 'content', 'favorited', 'favorites_count']
+		read_only_fields = ('author',)
+
+	def create(self, validated_data):
+		""" Method to create Comment object using serializer """
+		# Get comment author from the context
+		author = self.context.get('author', None)
+		comment = ApiModels.Comment.objects.create(author=author, **validated_data)
+		return comment
+
+	def get_favorited(self, instance):
+		request = self.context.get('request', None)
+		if request is None:
+			return False
+
+		# Check if user is authenticated
+		if not request.user.is_authenticated:
+			return False
+
+		return request.user.has_favorited_comment(instance)
+
+	def get_favorites_comment_count(self, instance):
+		"""Return number of people who favorited this comment """
+		return instance.favorited_comment.count()
+
 
 
 class CommentLikeSerializer(serializers.ModelSerializer):

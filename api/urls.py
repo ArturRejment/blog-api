@@ -9,10 +9,10 @@ urlpatterns = [
 	path('', views.index, name='index'),
 	path('post/', PostView.PostView.as_view({'get': 'list', 'post':'create'}), name='all_posts'),
 	path('post/<int:id>/', PostView.PostDetailView.as_view(), name='post'),
-	path('post/<int:id>/comments/', CommentsView.CommentDetailView.as_view(), name='post_comment'),
+	path('post/<int:id>/comments/', CommentsView.CommentDetailView.as_view({'get': 'list'}), name='post_comment'),
 	path('post/<int:id>/likes/', LikesView.viewLikesForPost, name='likes_for_post'),
 	path('post/<int:id>/favorite/', LikesView.ArticlesFavoriteAPIView.as_view(), name='like_post'),
-	path('comments/', CommentsView.CommentView.as_view(), name='comments'),
+	# path('comments/', CommentsView.CommentView.as_view(), name='comments'),
 	path('comment/<int:id>/like/', LikesView.likeComment, name='like_comment'),
 	re_path(r'^user/(?P<username>[0-9-a-z-A-Z]+)/$', UsersView.UserRetrieveAPIView.as_view(), name='profile'),
 ]
