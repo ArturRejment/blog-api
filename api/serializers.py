@@ -7,7 +7,7 @@ class UserSerializer(UserSerializer):
 	following = serializers.SerializerMethodField()
 	class Meta(UserSerializer.Meta):
 		model = ApiModels.User
-		fields = ['username', 'first_name', 'last_name', 'bio', 'imageURL', 'following']
+		fields = ['id', 'username', 'first_name', 'last_name', 'bio', 'imageURL', 'following']
 
 	# Check if currently logged user is following specific User
 	def get_following(self, instance):
@@ -16,7 +16,7 @@ class UserSerializer(UserSerializer):
 		if request is None:
 			return False
 
-		if not request.user.is_authenticated():
+		if not request.user.is_authenticated:
 			return False
 
 		follower = request.user

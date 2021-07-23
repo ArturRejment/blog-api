@@ -33,3 +33,8 @@ class CommentJSONRenderer(ConduitJSONRenderer):
 	object_label = 'comment'
 	pagination_object_label = 'comments'
 	pagination_count_label = 'commentsCount'
+
+class UserJSONRenderer(ConduitJSONRenderer):
+    object_label = 'user'
+    pagination_object_label = 'users'
+    pagination_count_label = 'usersCount'
