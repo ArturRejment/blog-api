@@ -17,7 +17,7 @@ class PostView(
                 mixins.RetrieveModelMixin,
                 viewsets.GenericViewSet):
 
-	""" Basic POST, GET, PUT and DELETE methods for Post model """
+	""" Basic CR** methods for Post model """
 	parser_classes = [MultiPartParser, FormParser]
 	renderer_classes = (ApiRenderers.PostJSONRenderer,)
 	serializer_classes = ApiSerializers.PostSerializer
@@ -53,7 +53,7 @@ class PostView(
 		return self.get_paginated_response(serializer.data)
 
 class PostDetailView(APIView):
-	""" CRUD for specific post """
+	""" *RUD for specific post """
 	renderer_classes = (ApiRenderers.PostJSONRenderer,)
 	serializer_classes = ApiSerializers.PostSerializer
 
@@ -66,7 +66,7 @@ class PostDetailView(APIView):
 		except Exception as e:
 			raise ValidationError(e)
 
-		serializer = ApiSerializers.PostSerializer(post)
+		serializer = self.serializer_classes(post)
 		return Response(serializer.data, status=200)
 
 	def put(self, request, **kwargs):
