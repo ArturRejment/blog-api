@@ -14,5 +14,5 @@ urlpatterns = [
 	path('post/<int:id>/favorite/', LikesView.ArticlesFavoriteAPIView.as_view(), name='like_post'),
 	path('comments/', CommentsView.CommentView.as_view(), name='comments'),
 	path('comment/<int:id>/like/', LikesView.likeComment, name='like_comment'),
-	re_path(r'^(?P<username>[0-9-a-z-A-Z]+)/$', UsersView.UserRetrieveAPIView.as_view(), name='profile'),
+	re_path(r'^user/(?P<username>[0-9-a-z-A-Z]+)/$', UsersView.UserRetrieveAPIView.as_view(), name='profile'),
 ]

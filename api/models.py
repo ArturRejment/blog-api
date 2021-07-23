@@ -35,7 +35,7 @@ class User(AbstractUser):
 
 	def is_following(self, profile):
 		"""Returns True if we're following `profile`; False otherwise."""
-		return self.follows.filter(id=profile.get('id')).exists()
+		return self.follows.filter(id=profile.id).exists()
 
 	def is_followed_by(self, profile):
 		"""Returns True if `profile` is following us; False otherwise."""
