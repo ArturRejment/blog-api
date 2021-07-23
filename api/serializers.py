@@ -61,7 +61,7 @@ class PostSerializer(serializers.ModelSerializer):
 		if not request.user.is_authenticated:
 			return False
 
-		return request.user.profile.has_favorited(instance)
+		return request.user.has_favorited(instance)
 
 	def get_favorites_count(self, instance):
 		return instance.favorited_by.count()

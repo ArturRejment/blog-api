@@ -2,9 +2,48 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.serializers import ValidationError
+from rest_framework.views import APIView
+from rest_framework.exceptions import NotFound
 
 import api.models as ApiModels
 import api.serializers as ApiSerializers
+from api.renderers import PostJSONRenderer
+
+class ArticlesFavoriteAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+    renderer_classes = (PostJSONRenderer,)
+    serializer_class = ApiSerializers.PostSerializer
+
+    def delete(self, request, id=None):
+        user = self.request.user
+        serializer_context = {'request': request}
+
+        try:
+            post = ApiModels.Post.objects.get(id=id)
+        except post.DoesNotExist:
+            raise NotFound('An article with this slug was not found.')
+
+        user.unfavorite(post)
+
+        serializer = self.serializer_class(post, context=serializer_context)
+
+        return Response(serializer.data, status=200)
+
+    def post(self, request, id=None):
+        user = self.request.user
+        serializer_context = {'request': request}
+
+        try:
+            post = ApiModels.Post.objects.get(id=id)
+        except ApiModels.Post.DoesNotExist:
+            raise NotFound('An post with this id was not found.')
+
+        user.favorite(post)
+
+        serializer = self.serializer_class(post, context=serializer_context)
+
+        return Response(serializer.data, status=201)
+
 
 @api_view(['GET'])
 def viewLikesForPost(request, **kwargs):
