@@ -71,26 +71,6 @@ def viewLikesForComment(request, **kwargs):
 	serializer = ApiSerializers.CommentLikeSerializer(likes, many=True)
 	return Response(serializer.data)
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def likePost(request, **kwargs):
-	user = request.user
-	postID = kwargs['id']
-	try:
-		post = ApiModels.Post.objects.get(id=postID)
-	except Exception as e:
-		raise ValidationError(e)
-
-	for i, element in enumerate(user.postlike_set.all()):
-		if post == element.post:
-			raise ValidationError({'User': 'User already likes this post'}, code=422)
-
-	ApiModels.PostLike.objects.create(
-		user=user,
-		post=post
-	)
-
-	return Response("Post liked", status=200)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

@@ -5,6 +5,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics, mixins, viewsets
+from rest_framework.exceptions import NotFound
 
 import api.models as ApiModels
 import api.serializers as ApiSerializers
@@ -64,7 +65,7 @@ class PostDetailView(APIView):
 		try:
 			post = ApiModels.Post.objects.get(id=postID)
 		except Exception as e:
-			raise ValidationError(e)
+			raise NotFound('Post with this id does not exist')
 
 		serializer = self.serializer_classes(post)
 		return Response(serializer.data, status=200)
@@ -79,7 +80,7 @@ class PostDetailView(APIView):
 		try:
 			post = ApiModels.Post.objects.get(id=postID)
 		except Exception as e:
-			raise ValidationError(e)
+			raise NotFound('Post with this id does not exist')
 
 		serializer = ApiSerializers.PostSerializer(instance=post, data=request.data)
 		if serializer.is_valid():
@@ -98,7 +99,7 @@ class PostDetailView(APIView):
 		try:
 			post = ApiModels.Post.objects.get(id=postID)
 		except Exception as e:
-			raise ValidationError(e)
+			raise NotFound('Post with this id does not exist')
 
 		try:
 			post.delete()

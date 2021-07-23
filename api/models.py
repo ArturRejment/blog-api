@@ -35,11 +35,11 @@ class User(AbstractUser):
 
 	def is_following(self, profile):
 		"""Returns True if we're following `profile`; False otherwise."""
-		return self.follows.filter(pk=profile.pk).exists()
+		return self.follows.filter(id=profile.get('id')).exists()
 
 	def is_followed_by(self, profile):
 		"""Returns True if `profile` is following us; False otherwise."""
-		return self.followed_by.filter(pk=profile.pk).exists()
+		return self.followed_by.filter(id=profile.get('id')).exists()
 
 	def favorite(self, article):
 		"""Favorite `article` if we haven't already favorited it."""
@@ -71,18 +71,13 @@ class Post(models.Model):
 			url = ''
 		return url
 
-	@property
-	def number_of_likes(self):
-		likes = self.postlike_set.all()
-		return likes.count()
-
 	def __str__(self):
 		return self.title
 
 class Comment(models.Model):
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, null=False, blank=False)
-	username = models.CharField(max_length=50, null=False, blank=False)
 	content = models.CharField(max_length=2000, null=False, blank=False)
+	author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, default=None)
 
 	@property
 	def number_of_likes(self):
@@ -90,14 +85,8 @@ class Comment(models.Model):
 		return likes.count()
 
 	def __str__(self):
-		return f'{self.username} on  {self.post}'
+		return f'{self.author.username} on  {self.post}'
 
-class PostLike(models.Model):
-	user = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
-	post = models.ForeignKey(Post, null=False, blank=False, on_delete=models.CASCADE)
-
-	def __str__(self):
-		return f'{self.user} likes {self.post}'
 
 class CommentLike(models.Model):
 	user = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)

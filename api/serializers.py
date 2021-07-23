@@ -73,11 +73,6 @@ class CommentSerializer(serializers.ModelSerializer):
 		model = ApiModels.Comment
 		fields = ['id', 'post', 'username', 'content']
 
-class PostLikeSerializer(serializers.ModelSerializer):
-	user = UserSerializer()
-	class Meta:
-		model = ApiModels.PostLike
-		fields = ['user']
 
 class CommentLikeSerializer(serializers.ModelSerializer):
 	user = UserSerializer()
