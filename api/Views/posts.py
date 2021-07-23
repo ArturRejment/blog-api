@@ -46,7 +46,7 @@ class PostView(
 
 	def list(self, request):
 		""" Return set of all posts """
-		serializer_context = {'request', request}
+		serializer_context = {'request': request}
 
 		posts = self.paginate_queryset(ApiModels.Post.objects.all())
 		serializer = self.serializer_classes(posts, context=serializer_context, many=True)

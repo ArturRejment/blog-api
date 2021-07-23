@@ -27,13 +27,17 @@ class UserSerializer(UserSerializer):
 class PostSerializer(serializers.ModelSerializer):
 	""" Post serializer """
 	author = UserSerializer(read_only=True)
+	favorited = serializers.SerializerMethodField()
+	favoritesCount = serializers.SerializerMethodField(
+	    method_name='get_favorites_count'
+    )
 	class Meta:
 		model = ApiModels.Post
-		fields = ['id', 'author', 'image', 'title', 'content', 'number_of_likes', 'imageURL']
+		fields = ['id', 'author', 'image', 'title', 'content', 'imageURL', 'favorited', 'favoritesCount']
 
 		# Specify only read fields - serializer will display them, but they are not
 		# required to create object
-		read_only_fields = ('author', 'number_of_likes')
+		read_only_fields = ('author',)
 
 		# According to the documentation this is new way to specify only-write fields
 		# That means, this fields are required to create object but will not be displayed
@@ -47,6 +51,20 @@ class PostSerializer(serializers.ModelSerializer):
 		author = self.context.get('author', None)
 		post = ApiModels.Post.objects.create(author=author, **validated_data)
 		return post
+
+	def get_favorited(self, instance):
+		request = self.context.get('request', None)
+
+		if request is None:
+			return False
+
+		if not request.user.is_authenticated:
+			return False
+
+		return request.user.profile.has_favorited(instance)
+
+	def get_favorites_count(self, instance):
+		return instance.favorited_by.count()
 
 
 

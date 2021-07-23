@@ -58,6 +58,10 @@ class Post(models.Model):
 	title = models.CharField(max_length=100, null=False, blank=False, unique=True)
 	content = models.CharField(max_length=2000, null=False, blank=False)
 	image = models.ImageField(upload_to="post_pics", default="default.png", height_field=None, width_field=None, max_length=None)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		ordering = ['-created_at']
 
 	@property
 	def imageURL(self):
