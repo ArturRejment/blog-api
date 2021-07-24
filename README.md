@@ -182,3 +182,7 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 - `user/<username>/`
   - `GET` Returns [user](#user-object) object specified by username
+
+- `comment/<id>/favorite/`
+  - `DELETE` Returns [comment](#comment-object) object, deletes comment from favorite
+  - `POST` Returns [comment](#comment-object) object, adds comment to favorite
