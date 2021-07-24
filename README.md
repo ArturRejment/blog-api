@@ -96,6 +96,71 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 }
 ```
 
+### Comment object
+
+```json
+{
+    "comment": {
+        "id": 3,
+        "post": 3,
+        "author": {
+            "id": 2,
+            "username": "marco123",
+            "first_name": "Marco",
+            "last_name": "Polo",
+            "bio": "",
+            "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+            "following": false
+        },
+        "content": "Great article",
+        "favorited": false,
+        "favorites_count": 0
+    }
+}
+```
+
+### Multiple Comments object
+
+```json
+{
+    "comments": [
+        {
+            "id": 1,
+            "post": 2,
+            "author": {
+                "id": 2,
+                "username": "marco123",
+                "first_name": "Marco",
+                "last_name": "Polo",
+                "bio": "",
+                "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+                "following": false
+            },
+            "content": "Great article",
+            "favorited": false,
+            "favorites_count": 0
+        },
+        {
+            "id": 2,
+            "post": 2,
+            "author": {
+                "id": 2,
+                "username": "marco123",
+                "first_name": "Marco",
+                "last_name": "Polo",
+                "bio": "",
+                "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+                "following": false
+            },
+            "content": "Great article",
+            "favorited": false,
+            "favorites_count": 0
+        }
+    ],
+    "commentsCount": 2
+}
+```
+
 ## Endpoints
 
 - `post/`
