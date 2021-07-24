@@ -16,6 +16,7 @@ class ArticlesFavoriteAPIView(APIView):
 	serializer_class = ApiSerializers.PostSerializer
 
 	def delete(self, request, id=None):
+		""" Remove post from favorites """
 		user = self.request.user
 		serializer_context = {'request': request}
 
@@ -31,6 +32,7 @@ class ArticlesFavoriteAPIView(APIView):
 		return Response(serializer.data, status=200)
 
 	def post(self, request, id=None):
+		""" Add post to favorites """
 		user = self.request.user
 		serializer_context = {'request': request}
 
@@ -52,6 +54,7 @@ class CommentsFavoriteAPIView(APIView):
 	serializer_class = ApiSerializers.CommentSerializer
 
 	def delete(self, request, id=None):
+		""" Remove comment from favorites """
 		user = self.request.user
 		serializer_context = {'request': request}
 
@@ -67,6 +70,7 @@ class CommentsFavoriteAPIView(APIView):
 		return Response(serializer.data, status=200)
 
 	def post(self, request, id=None):
+		""" Add comment to favorites """
 		user = self.request.user
 		serializer_context = {'request': request}
 

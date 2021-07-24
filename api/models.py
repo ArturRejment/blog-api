@@ -92,18 +92,6 @@ class Comment(models.Model):
 	content = models.CharField(max_length=2000, null=False, blank=False)
 	author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, default=None)
 
-	@property
-	def number_of_likes(self):
-		likes = self.commentlike_set.all()
-		return likes.count()
-
 	def __str__(self):
 		return f'{self.author.username} on  {self.post}'
 
-
-class CommentLike(models.Model):
-	user = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
-	comment = models.ForeignKey(Comment, null=False, blank=False, on_delete=models.CASCADE)
-
-	def __str__(self):
-		return f'{self.user} likes {self.comment}'

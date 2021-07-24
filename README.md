@@ -4,6 +4,7 @@ User authorization is provided by Djoser.
 
 API Endpoints allow to sign up and sing in, view all posts and comments, browse comments for specific post, like posts and comments.
 
+
 ## Run server with Docker
 
 - Clone this repo
@@ -12,6 +13,10 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 - Go to the server container with `docker exec -it blogserver bash`
 - Migrate database with `python manage.py migrate`
 - Run server with `docker-compose up`
+
+## ER Diagram for the database
+
+![diagram](https://github.com/ArturRejment/blog-api/tree/main/static/images/blog-api.png)
 
 ## Returning objects
 
