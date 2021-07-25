@@ -1,6 +1,6 @@
 # Blog API
 An API for simple blog built with Django, Django Rest Framework and Postgres database.
-User authorization is provided by Djoser.
+User authentication is provided by Djoser.
 
 API Endpoints allow to sign up and sing in, view all posts and comments, browse comments for specific post, like posts and comments.
 
