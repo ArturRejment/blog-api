@@ -23,6 +23,16 @@ class PostView(
 	renderer_classes = (ApiRenderers.PostJSONRenderer,)
 	serializer_classes = ApiSerializers.PostSerializer
 
+	def get_queryset(self):
+		queryset = ApiModels.Post.objects.all()
+
+		author = self.request.query_params.get('author', None)
+
+		if author is not None:
+			queryset = queryset.filter(author__username=author)
+
+		return queryset
+
 	@permission_classes([IsAuthenticated])
 	def create(self, request):
 		""" Create new Post """
@@ -49,7 +59,7 @@ class PostView(
 		""" Return set of all posts """
 		serializer_context = {'request': request}
 
-		posts = self.paginate_queryset(ApiModels.Post.objects.all())
+		posts = self.paginate_queryset(self.get_queryset())
 		serializer = self.serializer_classes(posts, context=serializer_context, many=True)
 		return self.get_paginated_response(serializer.data)
 
