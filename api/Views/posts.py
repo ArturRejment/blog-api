@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics, mixins, viewsets
 from rest_framework.exceptions import NotFound
+from django.db.models import Q
+from django_filters.rest_framework import DjangoFilterBackend
 
 import api.models as ApiModels
 import api.serializers as ApiSerializers
@@ -29,7 +31,8 @@ class PostView(
 		author = self.request.query_params.get('author', None)
 
 		if author is not None:
-			queryset = queryset.filter(author__username=author)
+			# author = author.split(",")
+			queryset = queryset.filter(Q(author__username__in=[author]))
 
 		return queryset
 
