@@ -4,6 +4,7 @@ from rest_framework.renderers import JSONRenderer
 
 
 class ConduitJSONRenderer(JSONRenderer):
+    """ Render the serializer data in proper format """
     charset = 'utf-8'
     object_label = 'object'
     pagination_object_label = 'objects'
@@ -25,16 +26,19 @@ class ConduitJSONRenderer(JSONRenderer):
             })
 
 class PostJSONRenderer(ConduitJSONRenderer):
-	object_label = 'post'
-	pagination_object_label = 'posts'
-	pagination_count_label = 'postsCount'
+    """ Labels for serializing Post object """
+    object_label = 'post'
+    pagination_object_label = 'posts'
+    pagination_count_label = 'postsCount'
 
 class CommentJSONRenderer(ConduitJSONRenderer):
-	object_label = 'comment'
-	pagination_object_label = 'comments'
-	pagination_count_label = 'commentsCount'
+    """ Labels for serializing Comment object """
+    object_label = 'comment'
+    pagination_object_label = 'comments'
+    pagination_count_label = 'commentsCount'
 
 class UserJSONRenderer(ConduitJSONRenderer):
+    """ Labels for serializing User object """
     object_label = 'user'
     pagination_object_label = 'users'
     pagination_count_label = 'usersCount'

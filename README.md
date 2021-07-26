@@ -1,8 +1,9 @@
 # Blog API
 An API for simple blog built with Django, Django Rest Framework and Postgres database.
-User authorization is provided by Djoser.
+User authentication is provided by Djoser.
 
 API Endpoints allow to sign up and sing in, view all posts and comments, browse comments for specific post, like posts and comments.
+
 
 ## Run server with Docker
 
@@ -12,6 +13,10 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 - Go to the server container with `docker exec -it blogserver bash`
 - Migrate database with `python manage.py migrate`
 - Run server with `docker-compose up`
+
+## ER Diagram for the database
+
+![blog-api.png](https://github.com/ArturRejment/blog-api/blob/main/static/images/blog-api.png)
 
 ## Returning objects
 
@@ -182,3 +187,7 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 - `user/<username>/`
   - `GET` Returns [user](#user-object) object specified by username
+
+- `comment/<id>/favorite/`
+  - `DELETE` Returns [comment](#comment-object) object, deletes comment from favorite
+  - `POST` Returns [comment](#comment-object) object, adds comment to favorite

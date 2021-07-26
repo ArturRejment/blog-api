@@ -29,7 +29,9 @@ class TestPostEndpoints(APITestCase):
 	# 	response = self.client.post(
 	# 		'/post/',
 	# 		{
-	# 			'author': self.user1.id,
+
+	# 			'author': self.user1,
+
 	# 			'title': 'New tech',
 	# 			'content': 'Hello'
 	# 		},
@@ -88,3 +90,4 @@ class TestPostEndpoints(APITestCase):
 	# 	)
 
 	# 	self.assertEquals(response.status_code, 200)
+
