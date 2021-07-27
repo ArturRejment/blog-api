@@ -10,10 +10,5 @@ import api.models as ApiModels
 def index(request):
 	posts = ApiModels.Post.objects.all()
 	comments = ApiModels.Comment.objects.all()
-	json = {}
-	for post in posts:
-		json[post.__str__()] = post.number_of_likes
-
-	for comment in comments:
-		json[comment.__str__()] = comment.number_of_likes
+	json = {'Blog Api'}
 	return Response(json)

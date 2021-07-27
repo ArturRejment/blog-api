@@ -175,6 +175,26 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 }
 ```
 
+### Tags list
+```json
+{
+    "tags": [
+        {
+            "tag": "Django"
+        },
+        {
+            "tag": "React"
+        },
+        {
+            "tag": "Bootstrap"
+        },
+        {
+            "tag": "Python"
+        }
+    ]
+}
+```
+
 ## Endpoints
 
 - `post/`
@@ -200,3 +220,6 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 - `comment/<id>/favorite/`
   - `DELETE` Returns [comment](#comment-object) object, deletes comment from favorite
   - `POST` Returns [comment](#comment-object) object, adds comment to favorite
+
+- `tags/`
+  - `GET` Returns [tags list](#tags-list) that contains all available tags

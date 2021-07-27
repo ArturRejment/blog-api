@@ -105,3 +105,8 @@ class CommentSerializer(serializers.ModelSerializer):
 	def get_favorites_comment_count(self, instance):
 		"""Return number of people who favorited this comment """
 		return instance.favorited_comment.count()
+
+class TagSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = ApiModels.Tag
+		fields = ['tag']
