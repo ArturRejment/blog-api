@@ -11,6 +11,6 @@ class PostTests(APITestCase):
 	def test_post_url(self):
 		url = 'all_posts'
 		reversed_url = reverse(url)
-		response = self.client.get('/post/')
+		response = self.client.get('/post')
 		# self.assertEqual(resolve(reversed_url).func, )
 		self.assertEqual(response.status_code, 200)
