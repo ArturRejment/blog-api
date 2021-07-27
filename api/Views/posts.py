@@ -29,10 +29,14 @@ class PostView(
 		queryset = ApiModels.Post.objects.all()
 
 		author = self.request.query_params.get('author', None)
+		tag = self.request.query_params.get('tag', None)
 
 		if author is not None:
 			# author = author.split(",")
 			queryset = queryset.filter(Q(author__username__in=[author]))
+
+		if tag is not None:
+			queryset = queryset.filter(Q(tags__tag=tag))
 
 		return queryset
 
