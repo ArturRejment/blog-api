@@ -1,6 +1,7 @@
 from rest_framework import serializers
 import api.models as ApiModels
 from djoser.serializers import UserCreateSerializer, UserSerializer
+from .relations import TagRelatedField
 
 class UserSerializer(UserSerializer):
 	bio = serializers.CharField(allow_blank=True, required=False)
@@ -31,9 +32,10 @@ class PostSerializer(serializers.ModelSerializer):
 	favoritesCount = serializers.SerializerMethodField(
 	    method_name='get_favorites_count'
     )
+	tagList = TagRelatedField(many=True, required=False, source='tags')
 	class Meta:
 		model = ApiModels.Post
-		fields = ['id', 'author', 'image', 'title', 'content', 'imageURL', 'favorited', 'favoritesCount']
+		fields = ['id', 'author', 'image', 'title', 'content', 'imageURL', 'tagList', 'favorited', 'favoritesCount']
 
 		# Specify only read fields - serializer will display them, but they are not
 		# required to create object
@@ -49,7 +51,12 @@ class PostSerializer(serializers.ModelSerializer):
 		""" Method to create Post object using serializer """
 		# Get post author from the context
 		author = self.context.get('author', None)
+		tags = validated_data.pop('tags', [])
 		post = ApiModels.Post.objects.create(author=author, **validated_data)
+
+		for tag in tags:
+			post.tags.add(tag)
+
 		return post
 
 	def get_favorited(self, instance):

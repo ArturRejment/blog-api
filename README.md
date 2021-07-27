@@ -39,9 +39,9 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 ```json
 {
     "post": {
-        "id": 2,
+        "id": 1,
         "author": {
-            "id": 2,
+            "id": 1,
             "username": "marco123",
             "first_name": "Marco",
             "last_name": "Polo",
@@ -49,9 +49,13 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
             "imageURL": "http://127.0.0.1:7000/static/images/default.png",
             "following": false
         },
-        "title": "Spaghetti",
-        "content": "Cook the ground beef in a large pot over high heat, stirring quickly and constantly until completely browned 7 to 10 minutes. Stir the onion into the beef; cook and stir until the onion begins to turn translucent, about 5 minutes more. Drain excess grease from meat mixture. Add the mushroom to the mixture; allow to cook until it begins to soften, 1 to 2 minutes. Pour the diced tomatoes and tomato soup into the pot, stir, reduce heat to medium, and bring the mixture to a simmer.",
-        "imageURL": "http://127.0.0.1:7000/static/images/post_pics/spaghetti_5z2btZM.png",
+        "title": "Space",
+        "content": "Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time, to be part of a boundless four-dimensional continuum known as spacetime.",
+        "imageURL": "http://127.0.0.1:7000/static/images/post_pics/spaghetti_bJniGRs.png",
+        "tagList": [
+            "Bootstrap",
+            "Python"
+        ],
         "favorited": false,
         "favoritesCount": 0
     }
@@ -63,9 +67,30 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 {
     "posts": [
         {
-            "id": 3,
+            "id": 2,
             "author": {
                 "id": 2,
+                "username": "artur",
+                "first_name": "artur",
+                "last_name": "rejment",
+                "bio": "",
+                "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+                "following": false
+            },
+            "title": "Rekrutacja",
+            "content": "The world is so big, it is beautiful",
+            "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+            "tagList": [
+                "Django",
+                "React"
+            ],
+            "favorited": false,
+            "favoritesCount": 0
+        },
+        {
+            "id": 1,
+            "author": {
+                "id": 1,
                 "username": "marco123",
                 "first_name": "Marco",
                 "last_name": "Polo",
@@ -75,24 +100,8 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
             },
             "title": "Space",
             "content": "Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time, to be part of a boundless four-dimensional continuum known as spacetime.",
-            "imageURL": "http://127.0.0.1:7000/static/images/post_pics/spaghetti_NXtUkRY.png",
-            "favorited": true,
-            "favoritesCount": 1
-        },
-        {
-            "id": 2,
-            "author": {
-                "id": 2,
-                "username": "marco123",
-                "first_name": "Marco",
-                "last_name": "Polo",
-                "bio": "",
-                "imageURL": "http://127.0.0.1:7000/static/images/default.png",
-                "following": false
-            },
-            "title": "Spaghetti",
-            "content": "Cook the ground beef in a large pot over high heat, stirring quickly and constantly until completely browned 7 to 10 minutes. Stir the onion into the beef; cook and stir until the onion begins to turn translucent, about 5 minutes more. Drain excess grease from meat mixture. Add the mushroom to the mixture; allow to cook until it begins to soften, 1 to 2 minutes. Pour the diced tomatoes and tomato soup into the pot, stir, reduce heat to medium, and bring the mixture to a simmer.",
-            "imageURL": "http://127.0.0.1:7000/static/images/post_pics/spaghetti_5z2btZM.png",
+            "imageURL": "http://127.0.0.1:7000/static/images/post_pics/spaghetti_bJniGRs.png",
+            "tagList": [],
             "favorited": false,
             "favoritesCount": 0
         }
