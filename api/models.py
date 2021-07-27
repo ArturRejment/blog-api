@@ -72,6 +72,7 @@ class Post(models.Model):
 	content = models.CharField(max_length=2000, null=False, blank=False)
 	image = models.ImageField(upload_to="post_pics", default="default.png", height_field=None, width_field=None, max_length=None)
 	created_at = models.DateTimeField(auto_now_add=True)
+	tags = models.ManyToManyField('Tag', related_name='articles')
 
 	class Meta:
 		ordering = ['-created_at']
@@ -95,3 +96,8 @@ class Comment(models.Model):
 	def __str__(self):
 		return f'{self.author.username} on  {self.post}'
 
+class Tag(models.Model):
+	tag = models.CharField(max_length=255)
+
+	def __str__(self):
+		return self.tag
