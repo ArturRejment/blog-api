@@ -5,13 +5,13 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
 	email = models.EmailField(verbose_name='email', max_length=254, unique=True)
-	phone = models.CharField(null=True, max_length=250)
+	phone = models.CharField(null=True, blank=True, max_length=250)
 	self_description = models.CharField(null=True, blank=True, max_length=500)
 	user_pic = models.ImageField(upload_to="user_pics", default="default.png", height_field=None, width_field=None, max_length=None)
 	bio = models.TextField(blank=True)
-	follows = models.ManyToManyField('self', related_name='followed_by', symmetrical=False)
-	favorites = models.ManyToManyField('Post', related_name='favorited_by')
-	favorite_comments = models.ManyToManyField('Comment', related_name='favorited_comment')
+	follows = models.ManyToManyField('self', related_name='followed_by', symmetrical=False, blank=True)
+	favorites = models.ManyToManyField('Post', related_name='favorited_by', blank=True)
+	favorite_comments = models.ManyToManyField('Comment', related_name='favorited_comment', blank=True)
 
 	REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
 
