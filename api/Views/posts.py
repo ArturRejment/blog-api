@@ -8,6 +8,7 @@ from rest_framework import generics, mixins, viewsets
 from rest_framework.exceptions import NotFound
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.pagination import PageNumberPagination
 
 import api.models as ApiModels
 import api.serializers as ApiSerializers
@@ -69,6 +70,24 @@ class PostView(
 		posts = self.paginate_queryset(self.get_queryset())
 		serializer = self.serializer_classes(posts, context=serializer_context, many=True)
 		return self.get_paginated_response(serializer.data)
+
+class TopPostsView(APIView):
+	""" Returns 3 most liked posts """
+	renderer_classes = (ApiRenderers.PostJSONRenderer,)
+	serializer_classes = ApiSerializers.PostSerializer
+
+	def get(self, request):
+		""" Get 3 most liked posts """
+		serializer_context = {'request': request}
+		paginator = PageNumberPagination()
+		paginator.page_size = 3
+
+		articles = ApiModels.Post.objects.all().order_by("favorited_by")
+		paginated_qs = paginator.paginate_queryset(articles, request)
+		serializer = self.serializer_classes(paginated_qs, context=serializer_context, many=True)
+
+		return paginator.get_paginated_response(serializer.data)
+
 
 class PostDetailView(APIView):
 	""" *RUD for specific post """

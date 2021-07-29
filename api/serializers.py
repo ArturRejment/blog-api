@@ -29,13 +29,10 @@ class PostSerializer(serializers.ModelSerializer):
 	""" Post serializer """
 	author = UserSerializer(read_only=True)
 	favorited = serializers.SerializerMethodField()
-	favoritesCount = serializers.SerializerMethodField(
-	    method_name='get_favorites_count'
-    )
 	tagList = TagRelatedField(many=True, required=False, source='tags')
 	class Meta:
 		model = ApiModels.Post
-		fields = ['id', 'author', 'image', 'title', 'content', 'imageURL', 'tagList', 'favorited', 'favoritesCount']
+		fields = ['id', 'author', 'image', 'title', 'content', 'imageURL', 'tagList', 'favorited', 'favorites_count']
 
 		# Specify only read fields - serializer will display them, but they are not
 		# required to create object
@@ -70,8 +67,6 @@ class PostSerializer(serializers.ModelSerializer):
 
 		return request.user.has_favorited(instance)
 
-	def get_favorites_count(self, instance):
-		return instance.favorited_by.count()
 
 
 

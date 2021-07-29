@@ -85,6 +85,10 @@ class Post(models.Model):
 			url = ''
 		return url
 
+	@property
+	def favorites_count(self):
+		return self.favorited_by.count()
+
 	def __str__(self):
 		return self.title
 
