@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # static files
-static/images/post_pics
-static/images/user_pics
+# static/images/post_pics
+# static/images/user_pics

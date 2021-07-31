@@ -1,0 +1,30 @@
+[
+	{
+	"model": "api.tag",
+	"pk": 1,
+	"fields": {
+		"tag": "Django"
+		}
+	},
+	{
+	"model": "api.tag",
+	"pk": 2,
+	"fields": {
+		"tag": "React"
+		}
+	},
+	{
+	"model": "api.tag",
+	"pk": 3,
+	"fields": {
+		"tag": "Bootstrap"
+		}
+	},
+	{
+	"model": "api.tag",
+	"pk": 4,
+	"fields": {
+		"tag": "Python"
+		}
+	}
+]
