@@ -8,7 +8,8 @@ class UserSerializer(UserSerializer):
 	following = serializers.SerializerMethodField()
 	class Meta(UserSerializer.Meta):
 		model = ApiModels.User
-		fields = ['id', 'username', 'first_name', 'last_name', 'bio', 'imageURL', 'following']
+		fields = ['id', 'username', 'first_name', 'last_name', 'bio',
+				  'imageURL', 'github_link', 'linkedin_link', 'facebook_link', 'following']
 
 	# Check if currently logged user is following specific User
 	def get_following(self, instance):
