@@ -32,7 +32,7 @@ class PostSerializer(serializers.ModelSerializer):
 	tagList = TagRelatedField(many=True, required=False, source='tags')
 	class Meta:
 		model = ApiModels.Post
-		fields = ['id', 'author', 'image', 'title', 'content', 'imageURL', 'tagList', 'favorited', 'favorites_count']
+		fields = ['id', 'author', 'image', 'title', 'description', 'content', 'imageURL', 'tagList', 'favorited', 'favorites_count']
 
 		# Specify only read fields - serializer will display them, but they are not
 		# required to create object

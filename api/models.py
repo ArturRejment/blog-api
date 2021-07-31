@@ -78,8 +78,8 @@ class Post(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	tags = models.ManyToManyField('Tag', related_name='posts')
 
-	class Meta:
-		ordering = ['-created_at']
+	# class Meta:
+	# 	ordering = ['-created_at']
 
 	@property
 	def imageURL(self):
