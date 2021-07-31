@@ -225,3 +225,16 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 - `tags`
   - `GET` Returns [tags list](#tags-list) that contains all available tags
+
+## Load test data to your database
+
+```python
+# load data for users
+python manage.py loaddata users
+
+# load data for tags
+python manage.py loaddata tags
+
+# load data for posts
+python manage.py loaddata posts
+```

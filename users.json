@@ -23,7 +23,7 @@
 		"groups": [],
 		"user_permissions": [],
 		"follows": [],
-		"favorites": [1],
+		"favorites": [],
 		"favorite_comments": []}
 	},
 	{
@@ -50,7 +50,7 @@
 		"groups": [],
 		"user_permissions": [],
 		"follows": [2],
-		"favorites": [3],
+		"favorites": [],
 		"favorite_comments": [] }
 	},
 	{
@@ -77,7 +77,7 @@
 		"groups": [],
 		"user_permissions": [],
 		"follows": [3],
-		"favorites": [1],
+		"favorites": [],
 		"favorite_comments": []}
 	}
 ]
