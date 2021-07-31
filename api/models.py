@@ -1,14 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
 
 class User(AbstractUser):
 	email = models.EmailField(verbose_name='email', max_length=254, unique=True)
 	phone = models.CharField(null=True, blank=True, max_length=250)
 	self_description = models.CharField(null=True, blank=True, max_length=500)
 	user_pic = models.ImageField(upload_to="user_pics", default="default.png", height_field=None, width_field=None, max_length=None)
-	bio = models.TextField(blank=True)
+	bio = models.TextField(blank=True, max_length=100)
+	github_link = models.CharField(null=True, blank=True, max_length=60)
+	linkedin_link = models.CharField(null=True, blank=True, max_length=60)
+	facebook_link = models.CharField(null=True, blank=True, max_length=60)
 	follows = models.ManyToManyField('self', related_name='followed_by', symmetrical=False, blank=True)
 	favorites = models.ManyToManyField('Post', related_name='favorited_by', blank=True)
 	favorite_comments = models.ManyToManyField('Comment', related_name='favorited_comment', blank=True)
@@ -66,11 +68,13 @@ class User(AbstractUser):
 		""" Returns True is we have favorited `comment`; else False"""
 		return self.favorite_comments.filter(id=comment.id).exists()
 
+
 class Post(models.Model):
 	author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
 	title = models.CharField(max_length=100, null=False, blank=False, unique=True)
+	description = models.CharField(max_length=200, null=False, blank=False, default='')
 	content = models.CharField(max_length=2000, null=False, blank=False)
-	image = models.ImageField(upload_to="post_pics", default="default.png", height_field=None, width_field=None, max_length=None)
+	image = models.ImageField(upload_to='post_pics', default='default.png', height_field=None, width_field=None, max_length=None)
 	created_at = models.DateTimeField(auto_now_add=True)
 	tags = models.ManyToManyField('Tag', related_name='posts')
 
@@ -92,6 +96,7 @@ class Post(models.Model):
 	def __str__(self):
 		return self.title
 
+
 class Comment(models.Model):
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, null=False, blank=False)
 	content = models.CharField(max_length=2000, null=False, blank=False)
@@ -99,6 +104,7 @@ class Comment(models.Model):
 
 	def __str__(self):
 		return f'{self.author.username} on  {self.post}'
+
 
 class Tag(models.Model):
 	tag = models.CharField(max_length=255)

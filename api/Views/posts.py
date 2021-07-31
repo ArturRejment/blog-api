@@ -15,30 +15,24 @@ import api.serializers as ApiSerializers
 import api.renderers as ApiRenderers
 
 
-class PostView(
-				mixins.CreateModelMixin,
-                mixins.ListModelMixin,
-                mixins.RetrieveModelMixin,
-                viewsets.GenericViewSet):
-
+class PostView(mixins.CreateModelMixin,
+               mixins.ListModelMixin,
+               mixins.RetrieveModelMixin,
+               viewsets.GenericViewSet):
 	""" Basic CR** methods for Post model """
+
 	parser_classes = [MultiPartParser, FormParser]
 	renderer_classes = (ApiRenderers.PostJSONRenderer,)
 	serializer_classes = ApiSerializers.PostSerializer
 
 	def get_queryset(self):
 		queryset = ApiModels.Post.objects.all()
-
 		author = self.request.query_params.get('author', None)
 		tag = self.request.query_params.get('tag', None)
-
 		if author is not None:
-			# author = author.split(",")
 			queryset = queryset.filter(Q(author__username__in=[author]))
-
 		if tag is not None:
 			queryset = queryset.filter(Q(tags__tag=tag))
-
 		return queryset
 
 	@permission_classes([IsAuthenticated])
@@ -48,13 +42,11 @@ class PostView(
 			'author': request.user,
 			'request': request
 		}
-
 		serializer_data = {
 			'title': request.data.get('title'),
 				'content': request.data.get('content', None),
 				'image': request.data.get('image', None)
 		}
-
 		serializer = self.serializer_classes(
 			data=serializer_data, context=serializer_context
 		)
@@ -62,14 +54,14 @@ class PostView(
 		serializer.save()
 		return Response(serializer.data, status=201)
 
-
 	def list(self, request):
 		""" Return set of all posts """
-		serializer_context = {'request': request}
 
+		serializer_context = {'request': request}
 		posts = self.paginate_queryset(self.get_queryset())
 		serializer = self.serializer_classes(posts, context=serializer_context, many=True)
 		return self.get_paginated_response(serializer.data)
+
 
 class TopPostsView(APIView):
 	""" Returns 3 most liked posts """
