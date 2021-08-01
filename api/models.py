@@ -26,6 +26,11 @@ class User(AbstractUser):
 			url = ''
 		return url
 
+	@property
+	def number_of_created_posts(self):
+		""" Returns number of posts that this user created """
+		return self.created_by.count()
+
 	def __str__(self):
 		return f'{self.id} {self.first_name} {self.last_name}'
 
@@ -71,7 +76,7 @@ class User(AbstractUser):
 
 
 class Post(models.Model):
-	author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+	author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name="created_by")
 	title = models.CharField(max_length=100, null=False, blank=False, unique=True)
 	description = models.CharField(max_length=200, null=False, blank=False, default='')
 	content = models.CharField(max_length=2000, null=False, blank=False)
