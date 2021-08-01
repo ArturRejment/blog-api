@@ -36,3 +36,12 @@ class UserRetrieveAPIView(RetrieveAPIView):
         })
 
         return Response(serializer.data, status=200)
+
+
+class TopUsersAPIView(RetrieveAPIView):
+    permission_classes = (AllowAny,)
+    renderer_classes = (UserJSONRenderer,)
+    serializer_class = UserSerializer
+
+    def retrieve(self, request):
+        users = User.objects.all().order_by('')
