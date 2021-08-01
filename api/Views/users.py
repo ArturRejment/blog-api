@@ -3,8 +3,9 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
+from django.db import connection
 
-from api.models import User
+from api.models import User, Post
 from api.serializers import UserSerializer
 from api.renderers import UserJSONRenderer
 
@@ -39,8 +40,31 @@ class UserRetrieveAPIView(RetrieveAPIView):
 
 class TopUsersAPIView(RetrieveAPIView):
     permission_classes = (AllowAny,)
-    renderer_classes = (UserJSONRenderer,)
+    # renderer_classes = (UserJSONRenderer,)
     serializer_class = UserSerializer
 
     def retrieve(self, request):
-        users = User.objects.all().order_by('')
+        """ Returns 3 top users based on number of created posts """
+        serializer_context = {'request': request}
+        query_data = None
+        # Perform raw SQL query in order to get 3 most popular authors
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT count(api_post.id) as counting, api_post.author_id \
+                            FROM api_post \
+                            GROUP BY api_post.author_id \
+                            ORDER BY counting DESC \
+                            LIMIT 3')
+            query_data = cursor.fetchall()
+        # New list for users data
+        new_json = []
+        # Loop through returned tuples
+        for index in query_data:
+            # Try to fetch User
+            try:
+                user = User.objects.get(id=index[1])
+            except Exception as e:
+                raise NotFound(f'User with id {index[1]} was not found')
+            # Append serialized user to the array
+            new_json.append(self.serializer_class(user).data)
+        # Return serialized data in proper format
+        return Response({'users':new_json}, status=200)
