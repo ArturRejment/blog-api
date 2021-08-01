@@ -223,8 +223,10 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 - `post`
   - `GET` Returns all [posts](#multiple-posts-objects) on the service
-    - Allowed url params: `author`, `tag`
+    - This endpoint makes use of pagination. The default page size is 10 posts
+    - Allowed url params: `author`, `tag`, `page`
     - Example: `post?author=marco&tag=Django` returns all posts whom author is marco and they are about Django
+    - Example: `post?page=3` returns 10 posts on 3rd page
   - `POST` Creates new [post](#post-object)
 
 - `post/<id>`
