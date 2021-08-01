@@ -11,13 +11,14 @@ import api.renderers as ApiRenderers
 
 
 class CommentDetailView(mixins.ListModelMixin, viewsets.GenericViewSet):
-	""" CDUD functionality for specific comments """
+	""" CD** functionality for specific comments """
 	renderer_classes = (ApiRenderers.CommentJSONRenderer,)
 	serializer_classes = ApiSerializers.CommentSerializer
 
 	def list(self, request, **kwargs):
-		""" Return comments for specific post """
+		""" Returns all comments for specific post """
 
+		# Serializer context required for JSONRenderer
 		serializer_context = {'request': request}
 		postID = kwargs['id']
 		try:
@@ -30,17 +31,22 @@ class CommentDetailView(mixins.ListModelMixin, viewsets.GenericViewSet):
 
 	def post(self, request, **kwargs):
 		""" Create comment for specific post """
+
+		# Serializer context required for JSONRenderer
 		serializer_context = {
 			'author': request.user,
 			'request': request
 		}
+		# Check if user is authenticated
 		if not request.user.is_authenticated:
 			raise NotFound('User must be authenticated')
 		postID = kwargs['id']
+		# Fetch specific post
 		try:
 			post = ApiModels.Post.objects.get(id=postID)
 		except Exception as e:
 			raise NotFound('Post with this id does not exist')
+		# Create a comment for fetched post
 		serializer = ApiSerializers.CommentSerializer(
 			data={
 				'post': post.id,

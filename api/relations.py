@@ -9,7 +9,6 @@ class TagRelatedField(serializers.RelatedField):
 
     def to_internal_value(self, data):
         tag, created = Tag.objects.get_or_create(tag=data)
-
         return tag
 
     def to_representation(self, value):
