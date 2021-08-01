@@ -16,7 +16,7 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 ## ER Diagram for the database
 
-![blog-api1.png](https://github.com/ArturRejment/blog-api/blob/main/static/images/blog-api.png)
+![blog-api1.png](https://github.com/ArturRejment/blog-api/blob/main/static/images/blog-api1.png)
 
 ## Returning objects
 
