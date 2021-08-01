@@ -252,44 +252,44 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 ## Endpoints
 
-- `users/`
+- ### users/
   - `POST` Creates new user
 
-- `token/login/`
+- ### token/login/
   - `POST` Allows to log in
 
-- `post`
+- ### post
   - `GET` Returns all [posts](#multiple-posts-objects) on the service
-    - This endpoint makes use of pagination. The default page size is 10 posts
+    - This endpoint makes use of pagination. The default size is 10 posts per page
     - Allowed url params: `author`, `tag`, `page`
     - Example: `post?author=marco&tag=Django` returns all posts whom author is marco and they are about Django
     - Example: `post?page=3` returns 10 posts on 3rd page
   - `POST` Creates new [post](#post-object)
 
-- `post/<id>`
+- ### post/\<id>
   - `GET` Returns [post](#post-object) specified by id
   - `PUT` Allows to update post specified by id
   - `DELETE` Allows to delete post specified by id
 
-- `post/<id>/comments`
+- ### post/\<id>/comments
   - `GET` Returns comments for post specified by id specified
   - `POST` Create comment for post specified by id
 
-- `post/<id>/favorite` (Authentication required)
+- ### post/\<id>/favorite (Authentication required)
   - `POST` Adds [post](#post-object) specified by id to favorites
   - `DELETE` Deletes [post](#post-object) specified by id from favorites
 
-- `user/<username>`
+- ### user/\<username>
   - `GET` Returns [user](#user-object) object specified by username
 
-- `top_users`
+- ### top_users
   - `GET` Returns top 3 [users](#multiple-users-objects)
 
-- `comment/<id>/favorite`
+- ### comment/\<id>/favorite
   - `DELETE` Returns [comment](#comment-object) object, deletes comment from favorite
   - `POST` Returns [comment](#comment-object) object, adds comment to favorite
 
-- `tags`
+- ### tags
   - `GET` Returns [tags list](#tags-list) that contains all available tags
 
 ## Load test data to your database
