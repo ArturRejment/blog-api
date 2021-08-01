@@ -3,6 +3,7 @@ from rest_framework import serializers
 from api.models import *
 import authApp.utils as ut
 
+
 class UserCreateSerializer(UserCreateSerializer):
 
 	class Meta(UserCreateSerializer.Meta):
@@ -10,18 +11,14 @@ class UserCreateSerializer(UserCreateSerializer):
 		fields = ('id', 'username', 'email', 'first_name', 'last_name')
 
 	def validate_email(self, value):
-		"""
-		Check the email format
-		"""
+		""" Check the email format """
+
 		if "@" not in value:
 			raise serializers.ValidationError("Email should contain @", code=422)
 		if "." not in value:
 			raise serializers.ValidationError("Email should contain @", code=422)
 
 	def create(self, validated_data):
-		"""
-		! Create method is not working properly
-		"""
 		strip = lambda x: ut.StripAndCapital(validated_data.get(x))
 
 		validated_data['first_name'] = strip('first_name')

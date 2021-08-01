@@ -21,12 +21,14 @@ class PostView(mixins.CreateModelMixin,
                viewsets.GenericViewSet):
 	""" Basic CR** methods for Post model """
 
+	lookup_field = 'title'
+	queryset = ApiModels.Post.objects.select_related('author').prefetch_related('tags')
 	parser_classes = [MultiPartParser, FormParser]
 	renderer_classes = (ApiRenderers.PostJSONRenderer,)
 	serializer_classes = ApiSerializers.PostSerializer
 
 	def get_queryset(self):
-		queryset = ApiModels.Post.objects.all()
+		queryset = self.queryset
 		author = self.request.query_params.get('author', None)
 		tag = self.request.query_params.get('tag', None)
 		if author is not None:
@@ -44,8 +46,8 @@ class PostView(mixins.CreateModelMixin,
 		}
 		serializer_data = {
 			'title': request.data.get('title'),
-				'content': request.data.get('content', None),
-				'image': request.data.get('image', None)
+			'content': request.data.get('content', None),
+			'image': request.data.get('image', None)
 		}
 		serializer = self.serializer_classes(
 			data=serializer_data, context=serializer_context

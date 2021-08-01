@@ -19,6 +19,7 @@ class User(AbstractUser):
 
 	@property
 	def imageURL(self):
+		""" Returns url of user profile picture """
 		try:
 			url = 'http://127.0.0.1:7000/static' + self.user_pic.url
 		except Exception:
@@ -78,9 +79,6 @@ class Post(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	tags = models.ManyToManyField('Tag', related_name='posts')
 
-	# class Meta:
-	# 	ordering = ['-created_at']
-
 	@property
 	def imageURL(self):
 		try:
@@ -103,7 +101,7 @@ class Comment(models.Model):
 	author = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, default=None)
 
 	def __str__(self):
-		return f'{self.author.username} on  {self.post}'
+		return f'{self.author.username} on {self.post}'
 
 
 class Tag(models.Model):

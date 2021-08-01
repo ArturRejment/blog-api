@@ -30,6 +30,9 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
         "last_name": "Polo",
         "bio": "",
         "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+        "github_link": "https://github.com/",
+        "linkedin_link": "https://www.linkedin.com/feed/",
+        "facebook_link": "https://www.facebook.com/",
         "following": false
     }
 }
@@ -47,9 +50,13 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
             "last_name": "Polo",
             "bio": "",
             "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+            "github_link": "https://github.com/",
+            "linkedin_link": "https://www.linkedin.com/feed/",
+            "facebook_link": "https://www.facebook.com/",
             "following": false
         },
         "title": "Space",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         "content": "Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time, to be part of a boundless four-dimensional continuum known as spacetime.",
         "imageURL": "http://127.0.0.1:7000/static/images/post_pics/spaghetti_bJniGRs.png",
         "tagList": [
@@ -75,9 +82,13 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
                 "last_name": "rejment",
                 "bio": "",
                 "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+                "github_link": "https://github.com/",
+                "linkedin_link": "https://www.linkedin.com/feed/",
+                "facebook_link": "https://www.facebook.com/",
                 "following": false
             },
             "title": "Rekrutacja",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "content": "The world is so big, it is beautiful",
             "imageURL": "http://127.0.0.1:7000/static/images/default.png",
             "tagList": [
@@ -96,9 +107,13 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
                 "last_name": "Polo",
                 "bio": "",
                 "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+                "github_link": "https://github.com/",
+                "linkedin_link": "https://www.linkedin.com/feed/",
+                "facebook_link": "https://www.facebook.com/",
                 "following": false
             },
             "title": "Space",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "content": "Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time, to be part of a boundless four-dimensional continuum known as spacetime.",
             "imageURL": "http://127.0.0.1:7000/static/images/post_pics/spaghetti_bJniGRs.png",
             "tagList": [],
@@ -124,6 +139,9 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
             "last_name": "Polo",
             "bio": "",
             "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+            "github_link": "https://github.com/",
+            "linkedin_link": "https://www.linkedin.com/feed/",
+            "facebook_link": "https://www.facebook.com/",
             "following": false
         },
         "content": "Great article",
@@ -148,6 +166,9 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
                 "last_name": "Polo",
                 "bio": "",
                 "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+                "github_link": "https://github.com/",
+                "linkedin_link": "https://www.linkedin.com/feed/",
+                "facebook_link": "https://www.facebook.com/",
                 "following": false
             },
             "content": "Great article",
@@ -164,6 +185,9 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
                 "last_name": "Polo",
                 "bio": "",
                 "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+                "github_link": "https://github.com/",
+                "linkedin_link": "https://www.linkedin.com/feed/",
+                "facebook_link": "https://www.facebook.com/",
                 "following": false
             },
             "content": "Great article",
@@ -199,8 +223,10 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 - `post`
   - `GET` Returns all [posts](#multiple-posts-objects) on the service
-    - Allowed url params: `author`, `tag`
+    - This endpoint makes use of pagination. The default page size is 10 posts
+    - Allowed url params: `author`, `tag`, `page`
     - Example: `post?author=marco&tag=Django` returns all posts whom author is marco and they are about Django
+    - Example: `post?page=3` returns 10 posts on 3rd page
   - `POST` Creates new [post](#post-object)
 
 - `post/<id>`

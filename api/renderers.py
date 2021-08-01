@@ -25,17 +25,20 @@ class ConduitJSONRenderer(JSONRenderer):
                 self.object_label: data
             })
 
+
 class PostJSONRenderer(ConduitJSONRenderer):
     """ Labels for serializing Post object """
     object_label = 'post'
     pagination_object_label = 'posts'
     pagination_count_label = 'postsCount'
 
+
 class CommentJSONRenderer(ConduitJSONRenderer):
     """ Labels for serializing Comment object """
     object_label = 'comment'
     pagination_object_label = 'comments'
     pagination_count_label = 'commentsCount'
+
 
 class UserJSONRenderer(ConduitJSONRenderer):
     """ Labels for serializing User object """
