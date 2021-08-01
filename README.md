@@ -16,7 +16,7 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 ## ER Diagram for the database
 
-![blog-api.png](https://github.com/ArturRejment/blog-api/blob/main/static/images/blog-api.png)
+![blog-api1.png](https://github.com/ArturRejment/blog-api/blob/main/static/images/blog-api.png)
 
 ## Returning objects
 
@@ -37,6 +37,37 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
     }
 }
 ```
+
+### Multiple Users Objects
+```json
+{
+    "users": [
+        {
+            "id": 5,
+            "username": "agi324",
+            "first_name": "Agata",
+            "last_name": "Kowalska",
+            "bio": "Agata K. | Student | Photographer | Cat Lover",
+            "imageURL": "http://127.0.0.1:7000/static/images/user_pics/person1.jpg",
+            "github_link": "https://github.com/",
+            "linkedin_link": "https://www.linkedin.com/feed/",
+            "facebook_link": "https://www.facebook.com/",
+            "following": false
+        },
+        {
+            "id": 4,
+            "username": "tom23",
+            "first_name": "Tomas",
+            "last_name": "Faster",
+            "bio": "Hi, I'm Tomas and I'm from Germany. Backend developer and Gym lover. Feel free to dm me!",
+            "imageURL": "http://127.0.0.1:7000/static/images/user_pics/person2.jpg",
+            "github_link": "https://github.com/",
+            "linkedin_link": "https://www.linkedin.com/feed/",
+            "facebook_link": "https://www.facebook.com/",
+            "following": false
+        }
+    ]
+}
 
 ### Post object
 ```json
@@ -221,6 +252,12 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 ## Endpoints
 
+- `users/`
+  - `POST` Creates new user
+
+- `token/login/`
+  - `POST` Allows to log in
+
 - `post`
   - `GET` Returns all [posts](#multiple-posts-objects) on the service
     - This endpoint makes use of pagination. The default page size is 10 posts
@@ -244,6 +281,9 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 - `user/<username>`
   - `GET` Returns [user](#user-object) object specified by username
+
+- `top_users`
+  - `GET` Returns top 3 [users](#multiple-users-objects)
 
 - `comment/<id>/favorite`
   - `DELETE` Returns [comment](#comment-object) object, deletes comment from favorite
