@@ -29,11 +29,12 @@ class PostSerializer(serializers.ModelSerializer):
 	author = UserSerializer(read_only=True)
 	favorited = serializers.SerializerMethodField()
 	tagList = TagRelatedField(many=True, required=False, source='tags')
+	createdAt = serializers.SerializerMethodField(method_name='get_created_at')
 
 	class Meta:
 		model = ApiModels.Post
 		fields = ['id', 'author', 'image', 'title', 'description', 'content',
-				  'imageURL', 'tagList', 'favorited', 'favorites_count']
+				  'imageURL', 'createdAt', 'tagList', 'favorited', 'favorites_count']
 
 		# Specify read_only fields - serializer will display them, but they are not
 		# required to create object
@@ -65,6 +66,9 @@ class PostSerializer(serializers.ModelSerializer):
 		if not request.user.is_authenticated:
 			return False
 		return request.user.has_favorited(instance)
+
+	def get_created_at(self, instance):
+		return instance.created_at.isoformat()
 
 
 class CommentSerializer(serializers.ModelSerializer):
