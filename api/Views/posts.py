@@ -105,6 +105,7 @@ class PostDetailView(APIView):
 
 	def get(self, request, **kwargs):
 		""" Get specific post """
+		serializer_context = {'request': request}
 
 		postID = kwargs['id']
 		try:
@@ -112,7 +113,7 @@ class PostDetailView(APIView):
 		except Exception as e:
 			raise NotFound('Post with this id does not exist')
 
-		serializer = self.serializer_classes(post)
+		serializer = self.serializer_classes(post, context=serializer_context)
 		return Response(serializer.data, status=200)
 
 	def put(self, request, **kwargs):
