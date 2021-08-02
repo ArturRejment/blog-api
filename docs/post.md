@@ -11,13 +11,13 @@ In order to retrieve all posts use `post` endpoint with `GET` method. This endpo
   - Example: `post?author=marco&tag=Django` will return all posts whom author is marco and they are about Django
 
 ## Retrieve specific post
-To retrieve specific post use `post/\<id>` endpoint with `GET` method.
+To retrieve specific post use `post/<id>` endpoint with `GET` method.
 > Authentication is not required.
 
 ## Add post to favorite
-In order to add post to favorite use `post/\<id>/favorite` with `POST` method.
+In order to add post to favorite use `post/<id>/favorite` with `POST` method.
 > Authentication is required.
 
 ## Remove post from favorite
-In order to remove post from favorite use `post/\<id>/favorite` with `DELETE` method.
+In order to remove post from favorite use `post/<id>/favorite` with `DELETE` method.
 > Authentication is required.
