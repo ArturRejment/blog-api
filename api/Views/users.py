@@ -1,9 +1,13 @@
+import json
+
 from rest_framework import serializers
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from django.db import connection
+from rest_framework.pagination import PageNumberPagination
 
 from api.models import User, Post
 from api.serializers import UserSerializer
@@ -68,3 +72,4 @@ class TopUsersAPIView(RetrieveAPIView):
             new_json.append(self.serializer_class(user).data)
         # Return serialized data in proper format
         return Response({'users':new_json}, status=200)
+
