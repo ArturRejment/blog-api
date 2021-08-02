@@ -1,4 +1,4 @@
-Authentication for this project is provided by Djoser. Default fiedl used for auhtentication is username. After you obtain auth_token you should send it as header: `Authorization: Token \<your_auth_token>`.
+Authentication for this project is provided by Djoser. Default fiedl used for auhtentication is username. After you obtain auth_token you should send it as header: `Authorization: Token <your_auth_token>`.
 
 ## Login
 In order to log in use endpoint `token/login/` with `POST` method.
