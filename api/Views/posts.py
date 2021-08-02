@@ -9,6 +9,7 @@ from rest_framework.exceptions import NotFound
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
+from django.db import connection
 
 import api.models as ApiModels
 import api.serializers as ApiSerializers
@@ -67,20 +68,34 @@ class PostView(mixins.CreateModelMixin,
 
 class TopPostsView(APIView):
 	""" Returns 3 most liked posts """
-	renderer_classes = (ApiRenderers.PostJSONRenderer,)
-	serializer_classes = ApiSerializers.PostSerializer
+	# renderer_classes = (ApiRenderers.PostJSONRenderer,)
+	serializer_class = ApiSerializers.PostSerializer
 
 	def get(self, request):
 		""" Get 3 most liked posts """
 		serializer_context = {'request': request}
-		paginator = PageNumberPagination()
-		paginator.page_size = 3
-
-		articles = ApiModels.Post.objects.all().order_by("favorited_by")
-		paginated_qs = paginator.paginate_queryset(articles, request)
-		serializer = self.serializer_classes(paginated_qs, context=serializer_context, many=True)
-
-		return paginator.get_paginated_response(serializer.data)
+		query_data = None
+		# Perform raw SQL query in order to get 3 most popular posts
+		with connection.cursor() as cursor:
+			cursor.execute('SELECT post_id, count(user_id) \
+							FROM api_user_favorites \
+							GROUP BY post_id \
+							ORDER BY count(user_id) DESC \
+							LIMIT 3')
+			query_data = cursor.fetchall()
+		# New list for posts data
+		new_json = []
+		# Loop through returned tuples
+		for index in query_data:
+			# Try to fetch Posts
+			try:
+				post = ApiModels.Post.objects.get(id=index[0])
+			except Exception as e:
+				raise NotFound(f'Post with id {index[1]} was not found')
+			# Append serialized user to the array
+			new_json.append(self.serializer_class(post).data)
+		# Return serialized data in proper format
+		return Response({'posts':new_json}, status=200)
 
 
 class PostDetailView(APIView):
