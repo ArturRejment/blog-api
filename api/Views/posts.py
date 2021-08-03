@@ -66,6 +66,25 @@ class PostView(mixins.CreateModelMixin,
 		return self.get_paginated_response(serializer.data)
 
 
+class FavoritedPostsView(mixins.ListModelMixin, viewsets.GenericViewSet):
+	serializer_class = ApiSerializers.PostSerializer
+	renderer_classes = (ApiRenderers.PostJSONRenderer,)
+
+	def list(self, request, **kwargs):
+		""" List of posts favorited by specific user """
+		serializer_context = {'request': request}
+		# Fetch the user
+		try:
+			user = ApiModels.User.objects.get(username=kwargs['username'])
+		except ApiModels.User.DoesNotExist:
+			raise NotFound('User with this username does not exist')
+
+		posts = ApiModels.Post.objects.filter(favorited_by=user)
+		paginated_posts = self.paginate_queryset(posts)
+		serializer = self.serializer_class(paginated_posts, context=serializer_context, many=True)
+		return self.get_paginated_response(serializer.data)
+
+
 class TopPostsView(APIView):
 	""" Returns 3 most liked posts """
 	# renderer_classes = (ApiRenderers.PostJSONRenderer,)

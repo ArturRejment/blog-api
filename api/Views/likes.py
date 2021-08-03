@@ -75,29 +75,3 @@ class CommentsFavoriteAPIView(APIView):
 		user.favorite_comment(comment)
 		serializer = self.serializer_class(comment, context=serializer_context)
 		return Response(serializer.data, status=201)
-
-@api_view(['GET'])
-def viewLikesForPost(request, **kwargs):
-	""" View all people who liked this post """
-
-	postID = kwargs['id']
-	try:
-		post = ApiModels.Post.objects.get(id = postID)
-	except Exception as e:
-		raise ValidationError(e)
-	likes = post.postlike_set.all()
-	serializer = ApiSerializers.PostLikeSerializer(likes, many=True)
-	return Response(serializer.data)
-
-@api_view(['GET'])
-def viewLikesForComment(request, **kwargs):
-	""" View all people who liked this comment """
-
-	commentID = kwargs['id']
-	try:
-		comment = ApiModels.Comment.objects.get(id=commentID)
-	except Exception as e:
-		raise ValidationError(e)
-	likes = comment.commentlike_set.all()
-	serializer = ApiSerializers.CommentLikeSerializer(likes, many=True)
-	return Response(serializer.data)
