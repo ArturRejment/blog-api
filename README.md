@@ -285,6 +285,12 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 - ### user/\<username>
   - `GET` Returns [user](#user-object) object specified by username
 
+- ### user/\<username>/fav_posts
+  - `GET` Returns [posts](#multiple-posts-objects) that user (specified by username) added to favorites
+
+- ### user/\<username>/fav_comments
+  - `GET` Returns [comments](#multiple-comments-objects) that user (specified by username) added to favorites
+
 - ### top_users
   - `GET` Returns top 3 [users](#multiple-users-objects)
 
