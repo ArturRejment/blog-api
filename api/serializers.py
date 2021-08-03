@@ -30,11 +30,13 @@ class PostSerializer(serializers.ModelSerializer):
 	favorited = serializers.SerializerMethodField()
 	tagList = TagRelatedField(many=True, required=False, source='tags')
 	createdAt = serializers.SerializerMethodField(method_name='get_created_at')
+	next_post_id = serializers.SerializerMethodField(method_name='get_next_post')
+	previous_post_id = serializers.SerializerMethodField(method_name='get_prev_post')
 
 	class Meta:
 		model = ApiModels.Post
 		fields = ['id', 'author', 'image', 'title', 'description', 'content',
-				  'imageURL', 'createdAt', 'tagList', 'favorited', 'favorites_count']
+				  'imageURL', 'createdAt', 'next_post_id', 'previous_post_id', 'tagList', 'favorited', 'favorites_count']
 
 		# Specify read_only fields - serializer will display them, but they are not
 		# required to create object
@@ -69,6 +71,22 @@ class PostSerializer(serializers.ModelSerializer):
 
 	def get_created_at(self, instance):
 		return instance.created_at.isoformat()
+
+	def get_next_post(self, instance):
+		""" Return id of next post in the database, if exists """
+		next_post = ApiModels.Post.objects.filter(id__gt=instance.id).order_by('id').first()
+		if next_post is not None:
+			return next_post.id
+		else:
+			return None
+
+	def get_prev_post(self, instance):
+		""" Return id of previous post in the database, if exists """
+		next_post = ApiModels.Post.objects.filter(id__lt=instance.id).order_by('-id').first()
+		if next_post is not None:
+			return next_post.id
+		else:
+			return None
 
 
 class CommentSerializer(serializers.ModelSerializer):

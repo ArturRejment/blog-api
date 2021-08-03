@@ -93,6 +93,9 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         "content": "Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time, to be part of a boundless four-dimensional continuum known as spacetime.",
         "imageURL": "http://127.0.0.1:7000/static/images/post_pics/spaghetti_bJniGRs.png",
+        "createdAt": "2021-07-31T16:01:53.829804+00:00",
+        "next_post_id": 2,
+        "previous_post_id": null,
         "tagList": [
             "Bootstrap",
             "Python"
@@ -125,6 +128,9 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "content": "The world is so big, it is beautiful",
             "imageURL": "http://127.0.0.1:7000/static/images/default.png",
+            "createdAt": "2021-07-31T16:01:53.829804+00:00",
+            "next_post_id": 3,
+            "previous_post_id": 1,
             "tagList": [
                 "Django",
                 "React"
@@ -150,6 +156,9 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             "content": "Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time, to be part of a boundless four-dimensional continuum known as spacetime.",
             "imageURL": "http://127.0.0.1:7000/static/images/post_pics/spaghetti_bJniGRs.png",
+            "createdAt": "2021-07-31T16:01:53.829804+00:00",
+            "next_post_id": 2,
+            "previous_post_id": null,
             "tagList": [],
             "favorited": false,
             "favoritesCount": 0
@@ -289,7 +298,7 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
   - `GET` Returns [posts](#multiple-posts-objects) that user (specified by username) added to favorites
 
 - ### user/\<username>/fav_comments
-  - `GET` Returns [comments](#multiple-comments-objects) that user (specified by username) added to favorites
+  - `GET` Returns [comments](#multiple-comments-object) that user (specified by username) added to favorites
 
 - ### top_users
   - `GET` Returns top 3 [users](#multiple-users-objects)
