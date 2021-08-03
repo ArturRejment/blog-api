@@ -14,6 +14,7 @@ from django.db import connection
 import api.models as ApiModels
 import api.serializers as ApiSerializers
 import api.renderers as ApiRenderers
+from analytics.mixins import ObjectViewedMixin
 
 
 class PostView(mixins.CreateModelMixin,
@@ -41,6 +42,7 @@ class PostView(mixins.CreateModelMixin,
 	@permission_classes([IsAuthenticated])
 	def create(self, request):
 		""" Create new Post """
+
 		serializer_context = {
 			'author': request.user,
 			'request': request
@@ -117,7 +119,7 @@ class TopPostsView(APIView):
 		return Response({'posts':new_json}, status=200)
 
 
-class PostDetailView(APIView):
+class PostDetailView(ObjectViewedMixin, APIView):
 	""" *RUD for specific post """
 	renderer_classes = (ApiRenderers.PostJSONRenderer,)
 	serializer_classes = ApiSerializers.PostSerializer
@@ -133,6 +135,7 @@ class PostDetailView(APIView):
 			raise NotFound('Post with this id does not exist')
 
 		serializer = self.serializer_classes(post, context=serializer_context)
+		# object_viewed_signal.send(post.__class__, instance=post, request=request)
 		return Response(serializer.data, status=200)
 
 	def put(self, request, **kwargs):
