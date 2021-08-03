@@ -56,3 +56,24 @@ class CommentDetailView(mixins.ListModelMixin, viewsets.GenericViewSet):
 		serializer.is_valid(raise_exception=True)
 		serializer.save()
 		return Response(serializer.data, status=200)
+
+
+class FavoritedCommentsView(mixins.ListModelMixin, viewsets.GenericViewSet):
+	serializer_class = ApiSerializers.CommentSerializer
+	renderer_classes = (ApiRenderers.CommentJSONRenderer,)
+
+	def list(self, request, **kwargs):
+		""" List of comments favorited by specific user """
+		serializer_context = {'request': request}
+		# Fetch the user
+		try:
+			user = ApiModels.User.objects.get(username=kwargs["username"])
+		except ApiModels.User.DoesNotExist:
+			raise NotFound('User with this username does not exist')
+
+		print('HELLOO')
+		comments = ApiModels.Comment.objects.filter(favorited_comment=user)
+		print('HELLOO')
+		paginated_comments = self.paginate_queryset(comments)
+		serializer = self.serializer_class(paginated_comments, context=serializer_context, many=True)
+		return self.get_paginated_response(serializer.data)
