@@ -4,5 +4,5 @@ def get_client_ip(request):
 	if x_forword_for:
 		ip = x_forword_for.split(',')[0]
 	else:
-		ip = request.META.get('REMOTE_ADDR')
+		ip = request.META.get('REMOTE_ADDR', None)
 	return ip

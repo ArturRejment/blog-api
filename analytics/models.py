@@ -4,6 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from api.models import User
 from .signals import object_viewed_signal
+from .utils import get_client_ip
 
 
 class ObjectViewed(models.Model):
@@ -24,9 +25,16 @@ class ObjectViewed(models.Model):
 
 
 def object_viewed_reciever(sender, instance, request, *args, **kwargs):
-	print(sender)
-	print(instance)
-	print(request)
-	print(request.user)
+	c_type = ContentType.objects.get_for_model(sender)
+	if request.user.is_authenticated:
+		user = request.user
+	else:
+		user = None
+	new_view_obj = ObjectViewed.objects.create(
+		user=user,
+		ip_address=get_client_ip(request),
+		object_id = instance.id,
+		content_type=c_type
+	)
 
 object_viewed_signal.connect(object_viewed_reciever)

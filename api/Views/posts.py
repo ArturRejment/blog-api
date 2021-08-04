@@ -16,6 +16,7 @@ import api.models as ApiModels
 import api.serializers as ApiSerializers
 import api.renderers as ApiRenderers
 from analytics.mixins import ObjectViewedMixin
+from analytics.signals import object_viewed_signal
 
 
 class PostView(mixins.CreateModelMixin,
@@ -120,12 +121,14 @@ class TopPostsView(APIView):
 		return Response({'posts':new_json}, status=200)
 
 
-class PostDetailView(ObjectViewedMixin, APIView):
+class PostDetailView(
+					 mixins.RetrieveModelMixin,
+               		 viewsets.GenericViewSet):
 	""" *RUD for specific post """
 	renderer_classes = (ApiRenderers.PostJSONRenderer,)
 	serializer_classes = ApiSerializers.PostSerializer
 
-	def get(self, *args, **kwargs):
+	def retrieve(self, request, *args, **kwargs):
 		""" Get specific post """
 		serializer_context = {'request': self.request}
 
@@ -136,7 +139,7 @@ class PostDetailView(ObjectViewedMixin, APIView):
 			raise NotFound('Post with this id does not exist')
 
 		serializer = self.serializer_classes(post, context=serializer_context)
-		# object_viewed_signal.send(post.__class__, instance=post, request=request)
+		object_viewed_signal.send(post.__class__, instance=post, request=request)
 		return Response(serializer.data, status=200)
 
 	def put(self, request, **kwargs):

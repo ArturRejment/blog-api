@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'analytics',
+    'analytics.apps.AnalyticsConfig',
     'api',
     'corsheaders',
     'django_filters',
