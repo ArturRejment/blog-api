@@ -21,3 +21,12 @@ class ObjectViewed(models.Model):
 		ordering = ['-timestamp']
 		verbose_name = 'Object viewed'
 		verbose_name_plural = 'Objects viewed'
+
+
+def object_viewed_reciever(sender, instance, request, *args, **kwargs):
+	print(sender)
+	print(instance)
+	print(request)
+	print(request.user)
+
+object_viewed_signal.connect(object_viewed_reciever)

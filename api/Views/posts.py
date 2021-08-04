@@ -10,6 +10,7 @@ from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
 from django.db import connection
+from django.views.generic import DetailView
 
 import api.models as ApiModels
 import api.serializers as ApiSerializers
@@ -124,9 +125,9 @@ class PostDetailView(ObjectViewedMixin, APIView):
 	renderer_classes = (ApiRenderers.PostJSONRenderer,)
 	serializer_classes = ApiSerializers.PostSerializer
 
-	def get(self, request, **kwargs):
+	def get(self, *args, **kwargs):
 		""" Get specific post """
-		serializer_context = {'request': request}
+		serializer_context = {'request': self.request}
 
 		postID = kwargs['id']
 		try:
