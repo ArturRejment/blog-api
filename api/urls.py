@@ -18,5 +18,6 @@ urlpatterns = [
 	re_path(r'^comment/(?P<id>[0-9]+)/favorite$', LikesView.CommentsFavoriteAPIView.as_view(), name='like_comment'),
 	re_path(r'^user/(?P<username>[0-9-a-z-A-Z]+)$', UsersView.UserRetrieveAPIView.as_view(), name='profile'),
 	path('user/<str:username>/fav_posts', PostView.FavoritedPostsView.as_view({'get': 'list'}), name='posts_favorited_by'),
-	path('user/<str:username>/fav_comments', CommentsView.FavoritedCommentsView.as_view({'get': 'list'}), name='posts_favorited_by')
+	path('user/<str:username>/fav_comments', CommentsView.FavoritedCommentsView.as_view({'get': 'list'}), name='posts_favorited_by'),
+	path('user/<str:username>/follow', UsersView.FollowUserView.as_view(), name='follow_user'),
 ]

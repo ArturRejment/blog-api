@@ -2,8 +2,9 @@ import json
 
 from rest_framework import serializers
 from rest_framework.generics import RetrieveAPIView
+from rest_framework import generics, mixins, viewsets
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from django.db import connection
@@ -72,4 +73,39 @@ class TopUsersAPIView(RetrieveAPIView):
             new_json.append(self.serializer_class(user).data)
         # Return serialized data in proper format
         return Response({'users':new_json}, status=200)
+
+
+class FollowUserView(APIView):
+
+    lookup_field = 'username'
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSerializer
+
+    def post(self, request, username=None):
+        """ Follow user specified by username """
+
+        serializer_context = {'request': request}
+        follower = request.user
+        try:
+            followee = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise NotFound('User with this username does not exist')
+
+        follower.follow(followee)
+        serializer = self.serializer_class(followee, context=serializer_context)
+        return Response(serializer.data, status=200)
+
+    def delete(self, request, username=None):
+        """ Unfollow user specified by username """
+
+        serializer_context = {'request': request}
+        follower = request.user
+        try:
+            followee = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise NotFound('User with this username does not exist')
+
+        follower.unfollow(followee)
+        serializer = self.serializer_class(followee, context=serializer_context)
+        return Response(serializer.data, status=200)
 
