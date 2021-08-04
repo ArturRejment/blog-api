@@ -115,8 +115,7 @@ class TopPostsView(APIView):
 		# Return serialized data in proper format
 		return Response({'posts':new_json}, status=200)
 
-
-class PostDetailView(
+class PostDetailView(ObjectViewedMixin,
 					 mixins.RetrieveModelMixin,
                		 viewsets.GenericViewSet):
 	""" *RUD for specific post """
