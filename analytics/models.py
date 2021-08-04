@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.sessions.models import Session
+from django.db.models.signals import pre_save, post_save
 
 from api.models import User
 from .signals import object_viewed_signal
