@@ -55,8 +55,15 @@ class PostSerializer(serializers.ModelSerializer):
 		tags = validated_data.pop('tags', [])
 		post = ApiModels.Post.objects.create(author=author, **validated_data)
 		# Add tags to the created post
+		if len(tags) > 0:
+			tags = str(tags[0]).split(',')
 		for tag in tags:
-			post.tags.add(tag)
+			tag = tag.strip()
+			try:
+				qs = ApiModels.Tag.objects.get_or_create(tag=tag)
+			except:
+				continue
+			post.tags.add(qs[0])
 		return post
 
 	def get_favorited(self, instance):

@@ -49,13 +49,8 @@ class PostView(mixins.CreateModelMixin,
 			'author': request.user,
 			'request': request
 		}
-		serializer_data = {
-			'title': request.data.get('title'),
-			'content': request.data.get('content', None),
-			'image': request.data.get('image', None)
-		}
 		serializer = self.serializer_classes(
-			data=serializer_data, context=serializer_context
+			data=request.data, context=serializer_context
 		)
 		serializer.is_valid(raise_exception=True)
 		serializer.save()
