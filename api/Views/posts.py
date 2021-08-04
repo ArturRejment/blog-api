@@ -77,7 +77,6 @@ class FavoritedPostsView(mixins.ListModelMixin, viewsets.GenericViewSet):
 			user = ApiModels.User.objects.get(username=kwargs['username'])
 		except ApiModels.User.DoesNotExist:
 			raise NotFound('User with this username does not exist')
-
 		posts = ApiModels.Post.objects.filter(favorited_by=user)
 		paginated_posts = self.paginate_queryset(posts)
 		serializer = self.serializer_class(paginated_posts, context=serializer_context, many=True)
@@ -115,14 +114,12 @@ class TopPostsView(APIView):
 		# Return serialized data in proper format
 		return Response({'posts':new_json}, status=200)
 
-class PostDetailView(ObjectViewedMixin,
-					 mixins.RetrieveModelMixin,
-               		 viewsets.GenericViewSet):
+class PostDetailView(APIView):
 	""" *RUD for specific post """
 	renderer_classes = (ApiRenderers.PostJSONRenderer,)
 	serializer_classes = ApiSerializers.PostSerializer
 
-	def retrieve(self, request, *args, **kwargs):
+	def get(self, request, *args, **kwargs):
 		""" Get specific post """
 		serializer_context = {'request': self.request}
 
@@ -131,23 +128,25 @@ class PostDetailView(ObjectViewedMixin,
 			post = ApiModels.Post.objects.get(id=postID)
 		except Exception as e:
 			raise NotFound('Post with this id does not exist')
-
+		# Serialize post
 		serializer = self.serializer_classes(post, context=serializer_context)
+		# Use signal to create ObjectViewed
 		object_viewed_signal.send(post.__class__, instance=post, request=request)
 		return Response(serializer.data, status=200)
 
-	def put(self, request, **kwargs):
-		""" Change existing post
-
-			Required params:
-			@param1 - postID """
+	@permission_classes([IsAuthenticated])
+	def patch(self, request, **kwargs):
+		""" Change existing post """
 
 		postID = kwargs['id']
 		try:
 			post = ApiModels.Post.objects.get(id=postID)
 		except Exception as e:
 			raise NotFound('Post with this id does not exist')
-
+		# Check if currently logged user is an author of this post
+		if post.author != request.user:
+			raise NotFound('You are not authorized to edit this post!')
+		# Update post
 		serializer = ApiSerializers.PostSerializer(instance=post, data=request.data)
 		if serializer.is_valid():
 			serializer.save()
@@ -155,21 +154,22 @@ class PostDetailView(ObjectViewedMixin,
 		else:
 			return Response(serializer.errors, status=422)
 
+	@permission_classes([IsAuthenticated])
 	def delete(self, request, **kwargs):
-		""" Delete post
-
-			Required params:
-			@param1 - postID"""
+		""" Delete post """
 
 		postID = kwargs['id']
 		try:
 			post = ApiModels.Post.objects.get(id=postID)
 		except Exception as e:
 			raise NotFound('Post with this id does not exist')
-
+		# Check if currently logged user is an author of this post
+		if post.author != request.user:
+			raise NotFound('You are not authorized to edit this post!')
+		# Try to delete this post
 		try:
 			post.delete()
 		except Exception as e:
-			return Response(e)
+			return Response({'error':e})
 		else:
-			return Response("Post deleted", status=200)
+			return Response({'post':'deleted'}, status=200)
