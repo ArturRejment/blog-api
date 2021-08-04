@@ -268,7 +268,10 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
   - `POST` Creates new user
 
 - ### token/login/
-  - `POST` Allows to log in
+  - `POST` Allows to log user in
+
+- ### token/logout/
+  - `POST` Allows to log user out
 
 - ### post
   - `GET` Returns all [posts](#multiple-posts-objects) on the service
@@ -299,6 +302,10 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
 
 - ### user/\<username>/fav_comments
   - `GET` Returns [comments](#multiple-comments-object) that user (specified by username) added to favorites
+
+- ### user/\<username>/follow (Authentication required)
+  - `POST` Allows to follow user specified by username, returns [user](#user-object)
+  - `DELETE` Allows to unfollow user specified by username, returns [user](#user-object)
 
 - ### top_users
   - `GET` Returns top 3 [users](#multiple-users-objects)
