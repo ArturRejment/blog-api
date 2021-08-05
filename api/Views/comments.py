@@ -71,9 +71,7 @@ class FavoritedCommentsView(mixins.ListModelMixin, viewsets.GenericViewSet):
 		except ApiModels.User.DoesNotExist:
 			raise NotFound('User with this username does not exist')
 
-		print('HELLOO')
 		comments = ApiModels.Comment.objects.filter(favorited_comment=user)
-		print('HELLOO')
 		paginated_comments = self.paginate_queryset(comments)
 		serializer = self.serializer_class(paginated_comments, context=serializer_context, many=True)
 		return self.get_paginated_response(serializer.data)

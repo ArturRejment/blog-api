@@ -114,6 +114,7 @@ class TopPostsView(APIView):
 		# Return serialized data in proper format
 		return Response({'posts':new_json}, status=200)
 
+
 class PostDetailView(APIView):
 	""" *RUD for specific post """
 	renderer_classes = (ApiRenderers.PostJSONRenderer,)
