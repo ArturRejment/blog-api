@@ -10,7 +10,7 @@ import api.serializers as ApiSerializers
 import api.renderers as ApiRenderers
 
 
-class CommentDetailView(mixins.ListModelMixin, viewsets.GenericViewSet):
+class CommentDetailView(mixins.ListModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
 	""" CD** functionality for specific comments """
 	renderer_classes = (ApiRenderers.CommentJSONRenderer,)
 	serializer_classes = ApiSerializers.CommentSerializer
@@ -56,6 +56,24 @@ class CommentDetailView(mixins.ListModelMixin, viewsets.GenericViewSet):
 		serializer.is_valid(raise_exception=True)
 		serializer.save()
 		return Response(serializer.data, status=200)
+
+
+class DeleteCommentView(mixins.DestroyModelMixin, viewsets.GenericViewSet):
+
+	def destroy(self, request, *args, **kwargs):
+		""" Delete specific comment """
+		user = request.user
+		commentID = kwargs['id']
+		try:
+			comment = ApiModels.Comment.objects.get(id=commentID)
+		except ApiModels.Comment.DoesNotExist:
+			raise NotFound('Comment with this id does not exist')
+
+		if comment.author != user:
+			raise ValidationError('You have not privilages to delete this comment.')
+
+		comment.delete()
+		return Response({'Comment': 'Comment deleted successfully'}, status=200)
 
 
 class FavoritedCommentsView(mixins.ListModelMixin, viewsets.GenericViewSet):

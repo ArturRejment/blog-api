@@ -314,6 +314,9 @@ API Endpoints allow to sign up and sing in, view all posts and comments, browse 
   - `DELETE` Returns [comment](#comment-object) object, deletes comment from favorite
   - `POST` Returns [comment](#comment-object) object, adds comment to favorite
 
+- ### comment/\<id>
+  - `DELETE` Deletes [comment](#comment-object) specified by id
+
 - ### tags
   - `GET` Returns [tags list](#tags-list) that contains all available tags
 

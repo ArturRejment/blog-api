@@ -15,6 +15,7 @@ urlpatterns = [
 	path('post/<int:id>/favorite', LikesView.ArticlesFavoriteAPIView.as_view(), name='like_post'),
 	path('tags', TagsView.TagListView.as_view(), name='tags'),
 	path('top_users', UsersView.TopUsersAPIView.as_view(), name='top_users'),
+	path('comment/<int:id>', CommentsView.DeleteCommentView.as_view({'delete':'destroy'}), name='comment_delete'),
 	re_path(r'^comment/(?P<id>[0-9]+)/favorite$', LikesView.CommentsFavoriteAPIView.as_view(), name='like_comment'),
 	re_path(r'^user/(?P<username>[0-9-a-z-A-Z]+)$', UsersView.UserRetrieveAPIView.as_view(), name='profile'),
 	path('user/<str:username>/fav_posts', PostView.FavoritedPostsView.as_view({'get': 'list'}), name='posts_favorited_by'),
