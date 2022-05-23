@@ -1,7 +1,7 @@
 from django.urls import reverse , resolve
 from rest_framework import status
 from rest_framework.test import APITestCase
-from api.Views.posts import PostView, PostDetailView
+from api.views.posts import PostView, PostDetailView
 
 class PostTests(APITestCase):
 
